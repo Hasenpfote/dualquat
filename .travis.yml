@@ -1,0 +1,170 @@
+language: cpp
+
+matrix:
+  include:
+    # gcc
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+          packages:
+             - cmake-data
+             - cmake
+             - gcc-5
+             - g++-5
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+          packages:
+             - cmake-data
+             - cmake
+             - gcc-6
+             - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+          packages:
+             - cmake-data
+             - cmake
+             - gcc-7
+             - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+          packages:
+             - cmake-data
+             - cmake
+             - gcc-8
+             - g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+          packages:
+             - cmake-data
+             - cmake
+             - gcc-9
+             - g++-9
+      env:
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+    # clang
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: clang
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+             - llvm-toolchain-bionic-9
+          packages:
+             - cmake-data
+             - cmake
+             - clang-7
+             - clang++-7
+      env:
+        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: clang
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+             - llvm-toolchain-bionic-9
+          packages:
+             - cmake-data
+             - cmake
+             - clang-8
+             - clang++-8
+      env:
+        - MATRIX_EVAL="CC=clang-8 && CXX=clang++-8"
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: clang
+      addons:
+        apt:
+          sources:
+             - ubuntu-toolchain-r-test
+             - llvm-toolchain-bionic-9
+          packages:
+             - cmake-data
+             - cmake
+             - clang-9
+             - clang++-9
+      env:
+        - MATRIX_EVAL="CC=clang-9 && CXX=clang++-9"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+
+install:
+  ############################################################################
+  #  All the dependencies are installed in ${HOME}/deps/
+  ############################################################################
+  - DEPS_DIR="${HOME}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+
+  ############################################################################
+  # Install a recent CMake.
+  ############################################################################
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v3.13/cmake-3.13.0-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    fi
+
+  ############################################################################
+  # Check the versions of installed packages.
+  ############################################################################
+  - echo ${CC}
+  - echo ${CXX}
+  - ${CXX} --version
+  - cmake --version
+
+before_script:
+  ############################################################################
+  # Go back to the root of the project and setup the build directory
+  ############################################################################
+  - cd "${TRAVIS_BUILD_DIR}"
+  - install -d build
+  - cd build
+
+script:
+  - cmake -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} -DDUALQUAD_BUILD_TESTING=ON ..
+  - make VERBOSE=1
+  - ctest -V
