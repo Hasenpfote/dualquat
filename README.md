@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Hasenpfote/dualquat.svg?branch=master)](https://travis-ci.org/Hasenpfote/dualquat)
+
 # dualquat
 
 ---------------------
@@ -56,3 +58,9 @@ int main()
 
 - [Eigen](http://eigen.tuxfamily.org)
 - [Dual quaternion](https://en.wikipedia.org/wiki/Dual_quaternion)
+
+
+
+## License
+
+This software is released under the CC0 License, see LICENSE.
