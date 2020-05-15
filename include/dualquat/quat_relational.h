@@ -37,7 +37,7 @@ bool same_rotation(const Eigen::Quaternion<T>& lhs, const Eigen::Quaternion<T>& 
     assert(almost_equal(Matrix1(lhs.squaredNorm()), Matrix1(T(1)), tol));
     assert(almost_equal(Matrix1(rhs.squaredNorm()), Matrix1(T(1)), tol));
 
-    using Coefficients = Eigen::Quaternion<T>::Coefficients;
+    using Coefficients = typename Eigen::Quaternion<T>::Coefficients;
 
     return almost_equal(lhs.coeffs(), rhs.coeffs(), tol)
         || almost_equal(lhs.coeffs(), Coefficients(-rhs.coeffs()), tol);
