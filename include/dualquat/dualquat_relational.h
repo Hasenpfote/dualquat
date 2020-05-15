@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cassert>
 #include "quat_relational.h"
+#include "dualquat_query.h"
 
 namespace eigen_ext
 {
@@ -24,6 +26,16 @@ bool almost_zero(const DualQuaternion<T>& dq, T tol)
 {
     return almost_zero(dq.real().coeffs(), tol)
         && almost_zero(dq.dual().coeffs(), tol);
+}
+
+template<typename T>
+bool same_transformation(const DualQuaternion<T>& lhs, const DualQuaternion<T>& rhs, T tol)
+{
+    assert(is_unit(lhs, tol));
+    assert(is_unit(rhs, tol));
+
+    return almost_equal(lhs, rhs, tol)
+        || almost_equal(lhs, -rhs, tol);
 }
 
 }   // namespace eigen_ext

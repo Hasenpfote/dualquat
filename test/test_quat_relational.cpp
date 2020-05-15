@@ -10,6 +10,8 @@ class QuatRelationalTest
     : public ::testing::Test
 {
 protected:
+    static const T PI;
+
     template<typename U = T>
     static constexpr typename std::enable_if<std::is_same<U, float>::value, U>::type
     absolute_tolerance(){ return 1e-4f; }
@@ -26,6 +28,10 @@ protected:
     static constexpr typename std::enable_if<std::is_same<U, double>::value, U>::type
     relative_tolerance(){ return 1e-5; }
 };
+
+template<typename T>
+const T
+QuatRelationalTest<T>::PI = std::acos(-T(1));
 
 using MyTypes = ::testing::Types<float, double>;
 TYPED_TEST_SUITE(QuatRelationalTest, MyTypes);
@@ -83,6 +89,51 @@ TYPED_TEST(QuatRelationalTest, almost_zero)
         const auto q = Quat(val, val, val, val);
 
         EXPECT_FALSE(eigen_ext::almost_zero<TypeParam>(q, atol));
+    }
+}
+
+TYPED_TEST(QuatRelationalTest, same_rotation)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using AngleAxis = typename Quat::AngleAxisType;
+
+    constexpr auto atol = QuatRelationalTest<TypeParam>::absolute_tolerance();
+
+#ifndef NDEBUG
+    // |q| != 1
+    {
+        const auto q = Quat(TypeParam(2), TypeParam(0), TypeParam(0), TypeParam(0));
+
+        EXPECT_DEATH({ eigen_ext::same_rotation(q, q, atol); }, "");
+    }
+#endif
+    // q == q
+    {
+        const auto angle = QuatRelationalTest<TypeParam>::PI / TypeParam(3);    // 60 [deg]
+        const auto q = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+
+        EXPECT_TRUE(eigen_ext::same_rotation(q, q, atol));
+    }
+    // When the two axes of rotation are not parallel.
+    {
+        const auto angle = QuatRelationalTest<TypeParam>::PI / TypeParam(3);    // 60 [deg]
+        const auto q1 = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+        const auto q2 = Quat(AngleAxis(angle, Vec3(TypeParam(0), TypeParam(1), TypeParam(0))));
+
+        EXPECT_FALSE(eigen_ext::same_rotation(q1, q2, atol));
+        EXPECT_FALSE(eigen_ext::same_rotation(q2, q1, atol));
+    }
+    // q == -q
+    {
+        const auto angle = QuatRelationalTest<TypeParam>::PI / TypeParam(3);    // 60 [deg]
+        const auto q1 = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+        const auto q2 = Quat(AngleAxis(TypeParam(2) * QuatRelationalTest<TypeParam>::PI - angle, -Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+        const auto minus_q1 = Quat(-q1.coeffs());
+
+        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(q2, minus_q1, atol));
+        EXPECT_TRUE(eigen_ext::same_rotation(q1, q2, atol));
+        EXPECT_TRUE(eigen_ext::same_rotation(q2, q1, atol));
     }
 }
 

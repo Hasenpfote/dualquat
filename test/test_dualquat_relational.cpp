@@ -10,6 +10,8 @@ class DualQuatRelationalTest
     : public ::testing::Test
 {
 protected:
+    static const T PI;
+
     template<typename U = T>
     static constexpr typename std::enable_if<std::is_same<U, float>::value, U>::type
     absolute_tolerance(){ return 1e-4f; }
@@ -26,6 +28,10 @@ protected:
     static constexpr typename std::enable_if<std::is_same<U, double>::value, U>::type
     relative_tolerance(){ return 1e-5; }
 };
+
+template<typename T>
+const T
+DualQuatRelationalTest<T>::PI = std::acos(-T(1));
 
 using MyTypes = ::testing::Types<float, double>;
 TYPED_TEST_SUITE(DualQuatRelationalTest, MyTypes);
@@ -99,6 +105,71 @@ TYPED_TEST(DualQuatRelationalTest, almost_zero)
             Quat(val, val, val, val));
 
         EXPECT_FALSE(eigen_ext::almost_zero<TypeParam>(dq, atol));
+    }
+}
+
+TYPED_TEST(DualQuatRelationalTest, same_transformation)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using AngleAxis = typename Quat::AngleAxisType;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
+
+#ifndef NDEBUG
+    // When not a unit dual quaternion.
+    {
+        const auto r = Quat(TypeParam(2), TypeParam(0), TypeParam(0), TypeParam(0));
+        const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+        const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
+
+        EXPECT_DEATH({ eigen_ext::same_transformation(dq, dq, atol); }, "");
+    }
+#endif
+    // dq == dq
+    {
+        const auto angle = DualQuatRelationalTest<TypeParam>::PI;
+        const auto axis = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+        const auto r = Quat(AngleAxis(angle, axis));
+        const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+        const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
+
+        EXPECT_TRUE(eigen_ext::same_transformation(dq, dq, atol));
+    }
+    // When the two axes of rotation are not parallel.
+    {
+        const auto angle = DualQuatRelationalTest<TypeParam>::PI;
+        const auto axis1 = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+        const auto axis2 = Vec3(TypeParam(0), TypeParam(1), TypeParam(0));
+        const auto r1 = Quat(AngleAxis(angle, axis1));
+        const auto r2 = Quat(AngleAxis(angle, axis2));
+        const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+
+        const auto dq1 = DualQuat(r1, Quat(TypeParam(0.5) * (t * r1).coeffs()));
+        const auto dq2 = DualQuat(r2, Quat(TypeParam(0.5) * (t * r2).coeffs()));
+
+        EXPECT_FALSE(eigen_ext::same_transformation(dq1, dq2, atol));
+        EXPECT_FALSE(eigen_ext::same_transformation(dq2, dq1, atol));
+    }
+    // dq == -dq
+    {
+        const auto angle = DualQuatRelationalTest<TypeParam>::PI;
+        const auto axis = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+        const auto r1 = Quat(AngleAxis(angle, axis));
+        const auto r2 = Quat(AngleAxis(TypeParam(2) * DualQuatRelationalTest<TypeParam>::PI - angle, -axis));
+        const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+        const auto dq1_real = r1;
+        const auto dq1_dual = Quat(TypeParam(0.5) * (t * r1).coeffs());
+        const auto dq2_real = r2;
+        const auto dq2_dual = Quat(TypeParam(0.5) * (t * r2).coeffs());
+        const auto dq1 = DualQuat(dq1_real, dq1_dual);
+        const auto dq2 = DualQuat(dq2_real, dq2_dual);
+        const auto minus_dq1 = DualQuat(Quat(-dq1_real.coeffs()), Quat(-dq1_dual.coeffs()));
+
+        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(dq2, minus_dq1, atol));
+        EXPECT_TRUE(eigen_ext::same_transformation(dq1, dq2, atol));
+        EXPECT_TRUE(eigen_ext::same_transformation(dq2, dq1, atol));
     }
 }
 
