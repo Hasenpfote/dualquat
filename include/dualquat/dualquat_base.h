@@ -93,6 +93,25 @@ DualQuaternion<T>::operator *= (T rhs)
     return *this;
 }
 
+/* Unary operators */
+
+template<typename T>
+DualQuaternion<T>
+operator + (const DualQuaternion<T>& rhs)
+{
+    return rhs;
+}
+
+template<typename T>
+DualQuaternion<T>
+operator - (const DualQuaternion<T>& rhs)
+{
+    DualQuaternion<T> temp;
+    temp.real() = -rhs.real().coeffs();
+    temp.dual() = -rhs.dual().coeffs();
+    return temp;
+}
+
 /* Binary operators */
 
 template<typename T>

@@ -131,6 +131,40 @@ TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
     }
 }
 
+TYPED_TEST(DualQuatBaseTest, UnaryPlus)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
+    const auto a = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
+    const auto b = Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8));
+    const auto real = a;
+    const auto dual = b;
+
+    auto res = +DualQuat(a, b);
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+}
+
+TYPED_TEST(DualQuatBaseTest, UnaryMinus)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
+    const auto a = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
+    const auto b = Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8));
+    const auto real = Quat(-a.coeffs());
+    const auto dual = Quat(-b.coeffs());
+
+    auto res = -DualQuat(a, b);
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+}
+
 TYPED_TEST(DualQuatBaseTest, Addition)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
