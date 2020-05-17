@@ -1,5 +1,7 @@
 #pragma once
 
+#include "dualquat_common.h"
+
 namespace eigen_ext
 {
 
@@ -49,6 +51,16 @@ transformation(const Eigen::Matrix<T, 3, 1>& t)
     auto dual = Eigen::Quaternion<T>(0, t.x(), t.y(), t.z());
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(Eigen::Quaternion<T>::Identity(), dual);
+}
+
+/*!
+ * Returns the difference between the two dual quaternions representing the transformation.
+ */
+template<typename T>
+DualQuaternion<T>
+transformational_difference(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2)
+{
+    return quaternion_conjugate(dq1) * dq2;
 }
 
 }   // namespace eigen_ext
