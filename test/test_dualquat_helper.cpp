@@ -93,33 +93,62 @@ TYPED_TEST(DualQuatHelperTest, sclerp)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
 
-    const auto dq1 = eigen_ext::transformation(
-        Quat(AngleAxis(TypeParam(0.25) * DualQuatHelperTest<TypeParam>::PI, Vec3(TypeParam(1), TypeParam(0), TypeParam(0)))),
-        Vec3(TypeParam(2), TypeParam(3), TypeParam(4))
-    );
-    const auto dq2 = eigen_ext::transformation(
-        Quat(AngleAxis(TypeParam(0.5) * DualQuatHelperTest<TypeParam>::PI, Vec3(TypeParam(0), TypeParam(1), TypeParam(0)))),
-        Vec3(TypeParam(5), TypeParam(6), TypeParam(7))
-    );
-    // t = 0
-    {
-        auto t = TypeParam(0);
-        auto res = sclerp(dq1, dq2, t);
+    const auto angle = DualQuatHelperTest<TypeParam>::PI / TypeParam(6);
+    const auto axis = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+    const auto r1 = Quat(AngleAxis(angle, axis));
+    const auto r2 = Quat(AngleAxis(TypeParam(2) * DualQuatHelperTest<TypeParam>::PI - angle, -axis));
+    const auto t = Quat(TypeParam(0), TypeParam(2), TypeParam(3), TypeParam(4));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.dual(), res.dual(), atol);
-    }
-    // t = 1
-    {
-        auto t = TypeParam(1);
-        auto res = sclerp(dq1, dq2, t);
+    const auto dq1 = DualQuat(r1, Quat(TypeParam(0.5) * (t * r1).coeffs()));
+    const auto dq2 = DualQuat(r2, Quat(TypeParam(0.5) * (t * r2).coeffs()));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res.dual(), atol);
-    }
+    // t == 0
+    const auto res0 = sclerp(dq1, dq2, TypeParam(0));
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.real(), res0.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.dual(), res0.dual(), atol);
+
+    // t == 1
+    const auto res1 = sclerp(dq1, dq2, TypeParam(1));
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res1.dual(), atol);
+}
+
+TYPED_TEST(DualQuatHelperTest, sclerp_shortestpath)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using AngleAxis = typename Quat::AngleAxisType;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
+
+    const auto angle = DualQuatHelperTest<TypeParam>::PI / TypeParam(6);
+    const auto axis = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+    const auto r1 = Quat(AngleAxis(angle, axis));
+    const auto r2 = Quat(AngleAxis(TypeParam(2) * DualQuatHelperTest<TypeParam>::PI - angle, -axis));
+    const auto t = Quat(TypeParam(0), TypeParam(2), TypeParam(3), TypeParam(4));
+
+    const auto dq1 = DualQuat(r1, Quat(TypeParam(0.5) * (t * r1).coeffs()));
+    const auto dq2 = DualQuat(r2, Quat(TypeParam(0.5) * (t * r2).coeffs()));
+
+    // t == 0
+    const auto res0 = sclerp_shortestpath(dq1, dq2, TypeParam(0));
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.real(), res0.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.dual(), res0.dual(), atol);
+
+    // t == 1
+    const auto res1 = sclerp_shortestpath(dq1, dq2, TypeParam(1));
+    const auto minus_dq2 = DualQuat(Quat(-dq2.real().coeffs()), Quat(-dq2.dual().coeffs()));
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, minus_dq2.real(), res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, minus_dq2.dual(), res1.dual(), atol);
 }
 
 }   // namespace

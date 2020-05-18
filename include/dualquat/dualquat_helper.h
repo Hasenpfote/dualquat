@@ -52,7 +52,16 @@ template<typename T>
 DualQuaternion<T>
 sclerp(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, T t)
 {
-    return dq1 * pow(inverse(dq1) * dq2, t);
+    return dq1 * pow(quaternion_conjugate(dq1) * dq2, t);
+}
+
+template<typename T>
+DualQuaternion<T>
+sclerp_shortestpath(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, T t)
+{
+    const auto cos_half_angle = dq1.real().dot(dq2.real());
+    const auto diff = quaternion_conjugate(dq1) * (cos_half_angle < T(0) ? -dq2 : dq2);
+    return dq1 * pow(diff, t);
 }
 
 }   // namespace eigen_ext
