@@ -3,7 +3,7 @@
 namespace eigen_ext
 {
 
-/*!
+/**
  * Returns true if two matrices are element-wise equal within tolerance.
  */
 template<typename Derived>
@@ -17,7 +17,7 @@ bool almost_equal(
         <= Eigen::DenseBase<Derived>::Constant(atol).array().max(rtol * lhs.derived().array().abs().max(rhs.derived().array().abs()))).all();
 }
 
-/*!
+/**
  * Returns true if two matrices are element-wise equal within tolerance.
  */
 template<typename Derived>
@@ -30,7 +30,7 @@ bool almost_equal(
         <= tol * Eigen::DenseBase<Derived>::Ones().array().max(lhs.derived().array().abs().max(rhs.derived().array().abs()))).all();
 }
 
-/*!
+/**
  * Returns true if a matrix is element-wise equal to zero within tolerance.
  */
 template<typename Derived>

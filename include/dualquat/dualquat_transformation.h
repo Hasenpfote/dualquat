@@ -5,7 +5,7 @@
 namespace eigen_ext
 {
 
-/*!
+/**
  * This transformation applies first the rotation and then the translation.
  */
 template<typename T>
@@ -17,7 +17,7 @@ transformation(const Eigen::Quaternion<T>& r, const Eigen::Matrix<T, 3, 1>& t)
     return DualQuaternion<T>(r, dual);
 }
 
-/*!
+/**
  * This transformation applies first the translation and then the rotation.
  */
 template<typename T>
@@ -29,7 +29,7 @@ transformation(const Eigen::Matrix<T, 3, 1>& t, const Eigen::Quaternion<T>& r)
     return DualQuaternion<T>(r, dual);
 }
 
-/*!
+/**
  * This transformation applies pure rotation.
  */
 template<typename T>
@@ -41,7 +41,7 @@ transformation(const Eigen::Quaternion<T>& r)
         Eigen::Quaternion<T>(Eigen::Quaternion<T>::Coefficients::Zero()));
 }
 
-/*!
+/**
  * This transformation applies pure translation.
  */
 template<typename T>
@@ -53,7 +53,7 @@ transformation(const Eigen::Matrix<T, 3, 1>& t)
     return DualQuaternion<T>(Eigen::Quaternion<T>::Identity(), dual);
 }
 
-/*!
+/**
  * Returns the difference between the two dual quaternions representing the transformation.
  */
 template<typename T>

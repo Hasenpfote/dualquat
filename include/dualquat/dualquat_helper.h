@@ -8,7 +8,7 @@
 namespace eigen_ext
 {
 
-/*!
+/**
  * Transforms a vector with a dual quaternion.
  */
 template<typename T>

@@ -6,7 +6,7 @@
 namespace eigen_ext
 {
 
-/*!
+/**
  * Returns a exponential of a dual quaternion.
  */
 template<typename T>
@@ -38,7 +38,7 @@ exp(const DualQuaternion<T>& dq)
     return temp;
 }
 
-/*!
+/**
  * Returns a logarithm of a dual quaternion.
  */
 template<typename T>
@@ -70,7 +70,7 @@ log(const DualQuaternion<T>& dq)
     return temp;
 }
 
-/*!
+/**
  * Returns a dual quaternion raised to a power.
  */
 template<typename T>

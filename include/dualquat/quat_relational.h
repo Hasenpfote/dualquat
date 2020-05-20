@@ -24,7 +24,7 @@ bool almost_zero(const Eigen::Quaternion<T>& q, T tol)
     return almost_zero(q.coeffs(), tol);
 }
 
-/*!
+/**
  * Returns true if the two quaternions represent the same rotation.
  * Note that every rotation is represented by two values, q and -q.
  */

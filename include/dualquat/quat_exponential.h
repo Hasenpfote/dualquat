@@ -5,7 +5,7 @@
 namespace eigen_ext
 {
 
-/*!
+/**
  * Returns a exponential of a quaternion.
  */
 template<typename T>
@@ -22,7 +22,7 @@ exp(const Eigen::Quaternion<T>& q)
     return temp;
 }
 
-/*!
+/**
  * Returns a logarithm of a quaternion.
  */
 template<typename T>

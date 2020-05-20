@@ -28,7 +28,7 @@ bool almost_zero(const DualQuaternion<T>& dq, T tol)
         && almost_zero(dq.dual().coeffs(), tol);
 }
 
-/*!
+/**
  * Returns true if the two dual quaternions represent the same transformation.
  * Note that every transformation is represented by two values, dq and -dq.
  */

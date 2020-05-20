@@ -58,7 +58,7 @@ normalize(const DualQuaternion<T>& dq)
     return temp;
 }
 
-/*!
+/**
  * Dual-conjugate.
  */
 template<typename T>
@@ -70,7 +70,7 @@ dual_conjugate(const DualQuaternion<T>& dq)
     return temp;
 }
 
-/*!
+/**
  * Quaternion-conjugate.
  */
 template<typename T>
@@ -80,7 +80,7 @@ quaternion_conjugate(const DualQuaternion<T>& dq)
     return DualQuaternion<T>(dq.real().conjugate(), dq.dual().conjugate());
 }
 
-/*!
+/**
  * Total-conjugate.
  */
 template<typename T>
