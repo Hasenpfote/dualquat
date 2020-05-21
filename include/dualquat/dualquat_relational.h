@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_relational.h
+ * @brief This file provides relational functions for dual quaternion types.
+ */
 #pragma once
 
 #include <cassert>

@@ -1,3 +1,6 @@
+/**
+ * @file dualquat/dualquat.h
+ */
 #pragma once
 
 #include "dualquat_base.h"

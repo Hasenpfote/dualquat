@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_query.h
+ * @brief This file provides query functions for dual quaternion types.
+ */
 #pragma once
 
 #include "dualquat_relational.h"

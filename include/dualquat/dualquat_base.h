@@ -1,3 +1,6 @@
+/**
+ * @file dualquat/dualquat_base.h
+ */
 #pragma once
 
 #include <Eigen/Geometry>

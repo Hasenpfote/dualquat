@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/relational.h
+ * @brief This file provides relational functions for DenseBase types.
+ */
 #pragma once
 
 namespace eigen_ext

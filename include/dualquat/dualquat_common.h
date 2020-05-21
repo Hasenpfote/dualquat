@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_common.h
+ * @brief This file provides common functions for dual quaternion types.
+ */
 #pragma once
 
 #include <utility>

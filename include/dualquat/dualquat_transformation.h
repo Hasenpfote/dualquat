@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_transformation.h
+ * @brief This file provides transformation functions for dual quaternion types.
+ */
 #pragma once
 
 #include "dualquat_common.h"

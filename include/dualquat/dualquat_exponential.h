@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_exponential.h
+ * @brief This file provides exponential functions for dual quaternion types.
+ */
 #pragma once
 
 #include <cmath>

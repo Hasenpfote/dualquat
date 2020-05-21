@@ -1,3 +1,7 @@
+/**
+ * @file dualquat/dualquat_helper.h
+ * @brief This file provides helper functions for dual quaternion types.
+ */
 #pragma once
 
 #include <cmath>
@@ -10,6 +14,8 @@ namespace eigen_ext
 
 /**
  * Transforms a vector with a dual quaternion.
+ * @param [in] dq   A dual quaternion representing a transformation.
+ * @param [in] v    Any 3d vector.
  */
 template<typename T>
 Eigen::Matrix<T, 3, 1>
@@ -18,6 +24,13 @@ transform(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& v)
     return (dq * DualQuaternion<T>(v) * total_conjugate(dq)).dual().vec();
 }
 
+/**
+ * Conversion from screw parameters to a dual quaternion.
+ * @param [in] l        The direction vector of the screw axis. 
+ * @param [in] m        The moment vector of the screw axis.
+ * @param [in] theta    The angle of rotation in radians around the screw axis.
+ * @param [in] d        Displacement along the screw axis.
+ */
 template<typename T>
 DualQuaternion<T>
 convert_to_dualquat(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m, T theta, T d)
@@ -33,6 +46,10 @@ convert_to_dualquat(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1
     return temp;
 }
 
+/**
+ * Conversion from a dual quaternion to screw parameters.
+ * @param [in] dq   A dual quaternion representing a transformation.
+ */
 template<typename T>
 std::tuple<Eigen::Matrix<T, 3, 1>, Eigen::Matrix<T, 3, 1>, T, T>
 convert_to_screw(const DualQuaternion<T>& dq)
@@ -48,6 +65,12 @@ convert_to_screw(const DualQuaternion<T>& dq)
     return std::make_tuple(l, m, theta, d);
 }
 
+/**
+ * Screw linear interpolation.
+ * @param [in] dq1  Unit Dual Quaternion as a start point for interpolation.
+ * @param [in] dq2  Unit Dual Quaternion as an end point for interpolation.
+ * @param [in] t    Value varies between 0 and 1.
+ */
 template<typename T>
 DualQuaternion<T>
 sclerp(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, T t)
@@ -55,6 +78,12 @@ sclerp(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, T t)
     return dq1 * pow(quaternion_conjugate(dq1) * dq2, t);
 }
 
+/**
+ * Screw linear interpolation.
+ * @param [in] dq1  Unit Dual Quaternion as a start point for interpolation.
+ * @param [in] dq2  Unit Dual Quaternion as an end point for interpolation.
+ * @param [in] t    Value varies between 0 and 1.
+ */
 template<typename T>
 DualQuaternion<T>
 sclerp_shortestpath(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, T t)
