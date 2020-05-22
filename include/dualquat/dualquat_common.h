@@ -96,4 +96,14 @@ total_conjugate(const DualQuaternion<T>& dq)
     return temp;
 }
 
+/**
+ * Returns the difference between the two dual quaternions.
+ */
+template<typename T>
+DualQuaternion<T>
+difference(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2)
+{
+    return inverse(dq1) * dq2;
+}
+
 }   // namespace eigen_ext

@@ -237,4 +237,27 @@ TYPED_TEST(DualQuatCommonTest, total_conjugate)
     }
 }
 
+TYPED_TEST(DualQuatCommonTest, difference)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
+
+    const auto dq1 = DualQuat(
+        Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4)),
+        Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8))
+    );
+    const auto dq2 = DualQuat(
+        Quat(TypeParam(4), TypeParam(3), TypeParam(2), TypeParam(1)),
+        Quat(TypeParam(8), TypeParam(7), TypeParam(6), TypeParam(5))
+    );
+
+    const auto diff = difference(dq1, dq2);
+    const auto res = dq1 * diff;
+
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res.dual(), atol);
+}
+
 }   // namespace
