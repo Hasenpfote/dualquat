@@ -33,10 +33,22 @@ public:
           dual_(dual)
     {}
 
+    /**
+     * Creates a new dual quaternion with the given vector.
+     */
     explicit DualQuaternion(const Eigen::Matrix<T, 3, 1>& v)
         : DualQuaternion(
             Eigen::Quaternion<T>::Identity(),
             Eigen::Quaternion<T>(0, v.x(), v.y(), v.z()))
+    {}
+
+    /**
+     * Creates a new dual quaternion with the given line (in Plucker coordinates).
+     */
+    DualQuaternion(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m)
+        : DualQuaternion(
+            Eigen::Quaternion<T>(0, l.x(), l.y(), l.z()),
+            Eigen::Quaternion<T>(0, m.x(), m.y(), m.z()))
     {}
 
 /* Accessors */
