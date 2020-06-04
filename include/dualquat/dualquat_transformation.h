@@ -67,4 +67,50 @@ transformational_difference(const DualQuaternion<T>& dq1, const DualQuaternion<T
     return quaternion_conjugate(dq1) * dq2;
 }
 
+/**
+ * Transforms a point with a unit dual quaternion.
+ * @param [in] dq   A unit dual quaternion representing a transformation.
+ * @param [in] p    A point represented by a dual quaternion.
+ */
+template<typename T>
+DualQuaternion<T>
+transform_point(const DualQuaternion<T>& dq, const DualQuaternion<T>& p)
+{
+    return dq * p * total_conjugate(dq);
+}
+
+/**
+ * Transforms a point with a unit dual quaternion.
+ * @see eigen_ext::transform_point()
+ */
+template<typename T>
+DualQuaternion<T>
+transform_point(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& p)
+{
+    return transform_point(dq, DualQuaternion<T>(p));
+}
+
+/**
+ * Transforms a line with a unit dual quaternion.
+ * @param [in] dq   A unit dual quaternion representing a transformation.
+ * @param [in] l    A line in the Plucker coordinates represented by a dual quaternion.
+ */
+template<typename T>
+DualQuaternion<T>
+transform_line(const DualQuaternion<T>& dq, const DualQuaternion<T>& l)
+{
+    return dq * l * quaternion_conjugate(dq);
+}
+
+/**
+ * Transforms a line with a unit dual quaternion.
+ * @see eigen_ext::transform_line()
+ */
+template<typename T>
+DualQuaternion<T>
+transform_line(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m)
+{
+    return transform_line(dq, DualQuaternion<T>(l, m));
+}
+
 }   // namespace eigen_ext

@@ -150,4 +150,91 @@ TYPED_TEST(DualQuatTransformationTest, transformational_difference)
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res.dual(), atol);
 }
 
+TYPED_TEST(DualQuatTransformationTest, transform_point)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using AngleAxis = typename Quat::AngleAxisType;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatTransformationTest<TypeParam>::absolute_tolerance();
+
+    const auto angle = DualQuatTransformationTest<TypeParam>::PI;
+    const auto r = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+    const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+    const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
+
+    const auto src = Vec3(TypeParam(1), TypeParam(2), TypeParam(3));
+    const auto dst = dq * DualQuat(src) * total_conjugate(dq);
+
+    {
+        auto res = eigen_ext::transform_point(dq, DualQuat(src));
+
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().y(), res.real().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().z(), res.real().z(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().w(), res.dual().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().x(), res.dual().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().y(), res.dual().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
+    }
+    {
+        auto res = eigen_ext::transform_point(dq, src);
+
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().y(), res.real().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().z(), res.real().z(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().w(), res.dual().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().x(), res.dual().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().y(), res.dual().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
+    }
+}
+
+TYPED_TEST(DualQuatTransformationTest, transform_line)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using AngleAxis = typename Quat::AngleAxisType;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatTransformationTest<TypeParam>::absolute_tolerance();
+
+    const auto angle = DualQuatTransformationTest<TypeParam>::PI;
+    const auto r = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
+    const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
+    const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
+
+    const auto l = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
+    const auto m = Vec3(TypeParam(0), TypeParam(2), TypeParam(0));
+    const auto dst = dq * DualQuat(l, m) * quaternion_conjugate(dq);
+
+    {
+        auto res = eigen_ext::transform_line(dq, DualQuat(l, m));
+
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().y(), res.real().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().z(), res.real().z(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().w(), res.dual().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().x(), res.dual().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().y(), res.dual().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
+    }
+    {
+        auto res = eigen_ext::transform_line(dq, l, m);
+
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().y(), res.real().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.real().z(), res.real().z(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().w(), res.dual().w(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().x(), res.dual().x(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().y(), res.dual().y(), atol);
+        EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
+    }
+}
+
 }   // namespace
