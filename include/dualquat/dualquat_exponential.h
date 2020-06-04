@@ -30,7 +30,7 @@ exp(const DualQuaternion<T>& dq)
     else
     {
         sinc = T(1);
-        alpha = - T(1.0 / 3.0);
+        alpha = - T(1) / T(3);
     }
 
     const auto vdot = dq.real().vec().dot(dq.dual().vec());

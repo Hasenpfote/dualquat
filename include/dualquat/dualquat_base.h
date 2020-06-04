@@ -39,7 +39,7 @@ public:
     explicit DualQuaternion(const Eigen::Matrix<T, 3, 1>& v)
         : DualQuaternion(
             Eigen::Quaternion<T>::Identity(),
-            Eigen::Quaternion<T>(0, v.x(), v.y(), v.z()))
+            Eigen::Quaternion<T>(T(0), v.x(), v.y(), v.z()))
     {}
 
     /**
@@ -47,8 +47,8 @@ public:
      */
     DualQuaternion(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m)
         : DualQuaternion(
-            Eigen::Quaternion<T>(0, l.x(), l.y(), l.z()),
-            Eigen::Quaternion<T>(0, m.x(), m.y(), m.z()))
+            Eigen::Quaternion<T>(T(0), l.x(), l.y(), l.z()),
+            Eigen::Quaternion<T>(T(0), m.x(), m.y(), m.z()))
     {}
 
 /* Accessors */

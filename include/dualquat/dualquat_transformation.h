@@ -16,7 +16,7 @@ template<typename T>
 DualQuaternion<T>
 transformation(const Eigen::Quaternion<T>& r, const Eigen::Matrix<T, 3, 1>& t)
 {
-    auto dual = Eigen::Quaternion<T>(0, t.x(), t.y(), t.z()) * r;
+    auto dual = Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z()) * r;
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(r, dual);
 }
@@ -28,7 +28,7 @@ template<typename T>
 DualQuaternion<T>
 transformation(const Eigen::Matrix<T, 3, 1>& t, const Eigen::Quaternion<T>& r)
 {
-    auto dual = r * Eigen::Quaternion<T>(0, t.x(), t.y(), t.z());
+    auto dual = r * Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z());
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(r, dual);
 }
@@ -52,7 +52,7 @@ template<typename T>
 DualQuaternion<T>
 transformation(const Eigen::Matrix<T, 3, 1>& t)
 {
-    auto dual = Eigen::Quaternion<T>(0, t.x(), t.y(), t.z());
+    auto dual = Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z());
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(Eigen::Quaternion<T>::Identity(), dual);
 }
