@@ -13,20 +13,8 @@ namespace eigen_ext
 {
 
 /**
- * Transforms a vector with a dual quaternion.
- * @param [in] dq   A dual quaternion representing a transformation.
- * @param [in] v    Any 3d vector.
- */
-template<typename T>
-Eigen::Matrix<T, 3, 1>
-transform(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& v)
-{
-    return (dq * DualQuaternion<T>(v) * total_conjugate(dq)).dual().vec();
-}
-
-/**
  * Conversion from screw parameters to a dual quaternion.
- * @param [in] l        The direction vector of the screw axis. 
+ * @param [in] l        The direction vector of the screw axis.
  * @param [in] m        The moment vector of the screw axis.
  * @param [in] theta    The angle of rotation in radians around the screw axis.
  * @param [in] d        Displacement along the screw axis.

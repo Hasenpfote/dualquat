@@ -38,30 +38,6 @@ DualQuatHelperTest<T>::PI = std::acos(-T(1));
 using MyTypes = ::testing::Types<float, double>;
 TYPED_TEST_SUITE(DualQuatHelperTest, MyTypes);
 
-TYPED_TEST(DualQuatHelperTest, transform)
-{
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
-    using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
-
-    constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
-
-    const auto angle = DualQuatHelperTest<TypeParam>::PI;
-    const auto r = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
-    const auto t = Vec3(TypeParam(5), TypeParam(6), TypeParam(7));
-    const auto dq = eigen_ext::transformation(r, t);
-
-    const auto src = Vec3(TypeParam(1), TypeParam(2), TypeParam(3));
-    const auto dst = Vec3((dq * DualQuat(src) * total_conjugate(dq)).dual().vec());
-
-    auto res = eigen_ext::transform(dq, src);
-
-    EXPECT_ALMOST_EQUAL(TypeParam, dst.x(), res.x(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, dst.y(), res.y(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, dst.z(), res.z(), atol);
-}
-
 TYPED_TEST(DualQuatHelperTest, screw)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
