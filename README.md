@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Hasenpfote/dualquat.svg?branch=master)](https://travis-ci.org/Hasenpfote/dualquat)
+[![Build Status](https://travis-ci.com/Hasenpfote/dualquat.svg?branch=master)](https://travis-ci.com/Hasenpfote/dualquat)
 
 # dualquat
 
@@ -10,7 +10,7 @@
 
 - Header-only.
 
-  
+
 
 ## Compatibility
 
