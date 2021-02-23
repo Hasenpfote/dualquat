@@ -65,6 +65,12 @@ public:
     DualQuaternion& operator *= (T);
 
 private:
+    static constexpr bool needs_to_align = (sizeof(Eigen::Quaternion<T>) % 16) == 0;
+
+public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(needs_to_align)
+
+private:
     Eigen::Quaternion<T> real_;
     Eigen::Quaternion<T> dual_;
 };

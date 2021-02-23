@@ -283,4 +283,28 @@ TYPED_TEST(DualQuatBaseTest, Multiplication)
     }
 }
 
+TYPED_TEST(DualQuatBaseTest, Alignment)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
+
+    if((sizeof(Quat) % 16) != 0)
+        GTEST_SKIP_("It does not need to be aligned.");
+
+    {
+        DualQuat* p = new DualQuat;
+        const auto addr = reinterpret_cast<std::uintptr_t>(&(p->real()));
+        EXPECT_TRUE((addr % 16) == 0);
+        delete p;
+    }
+    {
+        DualQuat* p = new DualQuat[2];
+        const auto addr0 = reinterpret_cast<std::uintptr_t>(&(p[0].real()));
+        const auto addr1 = reinterpret_cast<std::uintptr_t>(&(p[1].real()));
+        EXPECT_TRUE((addr0 % 16) == 0);
+        EXPECT_TRUE((addr1 % 16) == 0);
+        delete[] p;
+    }
+}
+
 }   // namespace
