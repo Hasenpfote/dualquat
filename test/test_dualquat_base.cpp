@@ -30,6 +30,34 @@ protected:
 using MyTypes = ::testing::Types<float, double>;
 TYPED_TEST_SUITE(DualQuatBaseTest, MyTypes);
 
+TYPED_TEST(DualQuatBaseTest, Constructor)
+{
+    using Quat = Eigen::Quaternion<TypeParam>;
+    using Vec3 = typename Quat::Vector3;
+    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+
+    constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
+
+    const auto real = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
+    const auto dual = Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8));
+
+    const DualQuat res1(real, dual);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res1.dual(), atol);
+
+    const DualQuat res2(dual.coeffs().head(3));
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0)), res2.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat(TypeParam(0), TypeParam(6), TypeParam(7), TypeParam(8)), res2.dual(), atol);
+
+    const auto from = Vec3(TypeParam(0), TypeParam(2), TypeParam(6));
+    const auto to = Vec3(TypeParam(0), TypeParam(2), TypeParam(4));
+    const auto l = to - from;
+    const auto m = from.cross(l);
+    const DualQuat res3(l, m);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat((Quat().coeffs() << l, TypeParam(0)).finished()), res3.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat((Quat().coeffs() << m, TypeParam(0)).finished()), res3.dual(), atol);
+}
+
 TYPED_TEST(DualQuatBaseTest, Accessor)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
@@ -40,13 +68,17 @@ TYPED_TEST(DualQuatBaseTest, Accessor)
     const auto real = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
     const auto dual = Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8));
 
-    DualQuat res;
+    {
+        const DualQuat res1(real, dual);
+        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res1.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res1.dual(), atol);
 
-    res.real() = real;
-    res.dual() = dual;
-
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        DualQuat res2;
+        res2.real() = real;
+        res2.dual() = dual;
+        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res2.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res2.dual(), atol);
+    }
 }
 
 TYPED_TEST(DualQuatBaseTest, AdditionAssignment)
