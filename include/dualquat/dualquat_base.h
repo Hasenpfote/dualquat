@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include <Eigen/Core>
 #include <Eigen/Geometry>
 
 namespace dualquat
@@ -13,6 +14,12 @@ class DualQuaternion;
 
 using DualQuaternionf = DualQuaternion<float>;
 using DualQuaterniond = DualQuaternion<double>;
+
+template<typename T>
+using Vector3 = Eigen::Matrix<T, 3, 1>;
+
+template<typename T>
+using Quaternion = Eigen::Quaternion<T>;
 
 template<typename T>
 class DualQuaternion
@@ -26,9 +33,9 @@ public:
     DualQuaternion()
     {}
 
-    explicit DualQuaternion(
-        const Eigen::Quaternion<T>& real,
-        const Eigen::Quaternion<T>& dual)
+    DualQuaternion(
+        const Quaternion<T>& real,
+        const Quaternion<T>& dual)
         : real_(real),
           dual_(dual)
     {}
@@ -36,27 +43,27 @@ public:
     /**
      * Creates a new dual quaternion with the given vector.
      */
-    explicit DualQuaternion(const Eigen::Matrix<T, 3, 1>& v)
+    explicit DualQuaternion(const Vector3<T>& v)
         : DualQuaternion(
-            Eigen::Quaternion<T>::Identity(),
-            Eigen::Quaternion<T>(T(0), v.x(), v.y(), v.z()))
+            Quaternion<T>::Identity(),
+            Quaternion<T>(T(0), v.x(), v.y(), v.z()))
     {}
 
     /**
      * Creates a new dual quaternion with the given line (in Plucker coordinates).
      */
-    DualQuaternion(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m)
+    DualQuaternion(const Vector3<T>& l, const Vector3<T>& m)
         : DualQuaternion(
-            Eigen::Quaternion<T>(T(0), l.x(), l.y(), l.z()),
-            Eigen::Quaternion<T>(T(0), m.x(), m.y(), m.z()))
+            Quaternion<T>(T(0), l.x(), l.y(), l.z()),
+            Quaternion<T>(T(0), m.x(), m.y(), m.z()))
     {}
 
 /* Accessors */
-    const Eigen::Quaternion<T>& real() const noexcept { return real_; }
-    const Eigen::Quaternion<T>& dual() const noexcept { return dual_; }
+    const Quaternion<T>& real() const noexcept { return real_; }
+    const Quaternion<T>& dual() const noexcept { return dual_; }
 
-    Eigen::Quaternion<T>& real() noexcept { return real_; }
-    Eigen::Quaternion<T>& dual() noexcept { return dual_; }
+    Quaternion<T>& real() noexcept { return real_; }
+    Quaternion<T>& dual() noexcept { return dual_; }
 
 /* Assignment operators */
     DualQuaternion& operator += (const DualQuaternion&);
@@ -65,14 +72,14 @@ public:
     DualQuaternion& operator *= (T);
 
 private:
-    static constexpr bool needs_to_align = (sizeof(Eigen::Quaternion<T>) % 16) == 0;
+    static constexpr bool needs_to_align = (sizeof(Quaternion<T>) % 16) == 0;
 
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(needs_to_align)
 
 private:
-    Eigen::Quaternion<T> real_;
-    Eigen::Quaternion<T> dual_;
+    Quaternion<T> real_;
+    Quaternion<T> dual_;
 };
 
 /* Assignment operators */

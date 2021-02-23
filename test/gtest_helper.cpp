@@ -1,4 +1,5 @@
-#include <Eigen/Geometry>
+#include <Eigen/Core>
+#include <dualquat/dualquat_base.h>
 #include <dualquat/quat_relational.h>
 #include "gtest_helper.h"
 

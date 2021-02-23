@@ -40,8 +40,7 @@ TYPED_TEST_SUITE(DualQuatHelperTest, MyTypes);
 
 TYPED_TEST(DualQuatHelperTest, screw)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
 
     constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
 
@@ -66,8 +65,8 @@ TYPED_TEST(DualQuatHelperTest, screw)
 
 TYPED_TEST(DualQuatHelperTest, sclerp)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
@@ -97,8 +96,8 @@ TYPED_TEST(DualQuatHelperTest, sclerp)
 
 TYPED_TEST(DualQuatHelperTest, sclerp_shortestpath)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 

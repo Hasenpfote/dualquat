@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Eigen/Geometry>
+#include <dualquat/dualquat_base.h>
 #include <dualquat/quat_relational.h>
 
 namespace
@@ -38,7 +38,7 @@ TYPED_TEST_SUITE(QuatRelationalTest, MyTypes);
 
 TYPED_TEST(QuatRelationalTest, almost_equal)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
 
     constexpr auto atol = QuatRelationalTest<TypeParam>::absolute_tolerance();
 
@@ -74,7 +74,7 @@ TYPED_TEST(QuatRelationalTest, almost_equal)
 
 TYPED_TEST(QuatRelationalTest, almost_zero)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
 
     constexpr auto atol = QuatRelationalTest<TypeParam>::absolute_tolerance();
 
@@ -94,8 +94,8 @@ TYPED_TEST(QuatRelationalTest, almost_zero)
 
 TYPED_TEST(QuatRelationalTest, same_rotation)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Quat = dualquat::Quaternion<TypeParam>;
+    using Vec3 = dualquat::Vector3<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
 
     constexpr auto atol = QuatRelationalTest<TypeParam>::absolute_tolerance();

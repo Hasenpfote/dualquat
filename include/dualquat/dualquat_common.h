@@ -33,8 +33,8 @@ DualQuaternion<T>
 identity()
 {
     return DualQuaternion<T>(
-        Eigen::Quaternion<T>::Identity(),
-        Eigen::Quaternion<T>(Eigen::Quaternion<T>::Coefficients::Zero()));
+        Quaternion<T>::Identity(),
+        Quaternion<T>(Quaternion<T>::Coefficients::Zero()));
 }
 
 template<typename T>

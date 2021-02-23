@@ -21,7 +21,7 @@ namespace dualquat
  */
 template<typename T>
 DualQuaternion<T>
-convert_to_dualquat(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m, T theta, T d)
+convert_to_dualquat(const Vector3<T>& l, const Vector3<T>& m, T theta, T d)
 {
     const auto half_theta = T(0.5) * theta;
     const auto half_d = T(0.5) * d;
@@ -39,17 +39,15 @@ convert_to_dualquat(const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1
  * @param [in] dq   A dual quaternion representing a transformation.
  */
 template<typename T>
-std::tuple<Eigen::Matrix<T, 3, 1>, Eigen::Matrix<T, 3, 1>, T, T>
+std::tuple<Vector3<T>, Vector3<T>, T, T>
 convert_to_screw(const DualQuaternion<T>& dq)
 {
-    using Vector3 = Eigen::Matrix<T, 3, 1>;
-
     const auto half_theta = std::acos(dq.real().w());
     const auto theta = T(2) * half_theta;
-    const Vector3 l = dq.real().vec() / std::sin(half_theta);
-    const Vector3 t = T(2) * (dq.dual() * dq.real().conjugate()).vec();
+    const Vector3<T> l = dq.real().vec() / std::sin(half_theta);
+    const Vector3<T> t = T(2) * (dq.dual() * dq.real().conjugate()).vec();
     const auto d = t.dot(l);
-    const Vector3 m = T(0.5) * (t.cross(l) + (t - d * l) * std::tan(half_theta));
+    const Vector3<T> m = T(0.5) * (t.cross(l) + (t - d * l) * std::tan(half_theta));
     return std::make_tuple(l, m, theta, d);
 }
 

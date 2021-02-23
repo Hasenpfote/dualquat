@@ -14,9 +14,9 @@ namespace dualquat
  */
 template<typename T>
 DualQuaternion<T>
-transformation(const Eigen::Quaternion<T>& r, const Eigen::Matrix<T, 3, 1>& t)
+transformation(const Quaternion<T>& r, const Vector3<T>& t)
 {
-    auto dual = Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z()) * r;
+    auto dual = Quaternion<T>(T(0), t.x(), t.y(), t.z()) * r;
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(r, dual);
 }
@@ -26,9 +26,9 @@ transformation(const Eigen::Quaternion<T>& r, const Eigen::Matrix<T, 3, 1>& t)
  */
 template<typename T>
 DualQuaternion<T>
-transformation(const Eigen::Matrix<T, 3, 1>& t, const Eigen::Quaternion<T>& r)
+transformation(const Vector3<T>& t, const Quaternion<T>& r)
 {
-    auto dual = r * Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z());
+    auto dual = r * Quaternion<T>(T(0), t.x(), t.y(), t.z());
     dual.coeffs() *= T(0.5);
     return DualQuaternion<T>(r, dual);
 }
@@ -38,11 +38,11 @@ transformation(const Eigen::Matrix<T, 3, 1>& t, const Eigen::Quaternion<T>& r)
  */
 template<typename T>
 DualQuaternion<T>
-transformation(const Eigen::Quaternion<T>& r)
+transformation(const Quaternion<T>& r)
 {
     return DualQuaternion<T>(
         r,
-        Eigen::Quaternion<T>(Eigen::Quaternion<T>::Coefficients::Zero()));
+        Quaternion<T>(Quaternion<T>::Coefficients::Zero()));
 }
 
 /**
@@ -50,11 +50,11 @@ transformation(const Eigen::Quaternion<T>& r)
  */
 template<typename T>
 DualQuaternion<T>
-transformation(const Eigen::Matrix<T, 3, 1>& t)
+transformation(const Vector3<T>& t)
 {
-    auto dual = Eigen::Quaternion<T>(T(0), t.x(), t.y(), t.z());
+    auto dual = Quaternion<T>(T(0), t.x(), t.y(), t.z());
     dual.coeffs() *= T(0.5);
-    return DualQuaternion<T>(Eigen::Quaternion<T>::Identity(), dual);
+    return DualQuaternion<T>(Quaternion<T>::Identity(), dual);
 }
 
 /**
@@ -85,7 +85,7 @@ transform_point(const DualQuaternion<T>& dq, const DualQuaternion<T>& p)
  */
 template<typename T>
 DualQuaternion<T>
-transform_point(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& p)
+transform_point(const DualQuaternion<T>& dq, const Vector3<T>& p)
 {
     return transform_point(dq, DualQuaternion<T>(p));
 }
@@ -108,7 +108,7 @@ transform_line(const DualQuaternion<T>& dq, const DualQuaternion<T>& l)
  */
 template<typename T>
 DualQuaternion<T>
-transform_line(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& l, const Eigen::Matrix<T, 3, 1>& m)
+transform_line(const DualQuaternion<T>& dq, const Vector3<T>& l, const Vector3<T>& m)
 {
     return transform_line(dq, DualQuaternion<T>(l, m));
 }

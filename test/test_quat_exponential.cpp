@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Eigen/Geometry>
+#include <dualquat/dualquat_base.h>
 #include <dualquat/quat_exponential.h>
 #include "gtest_helper.h"
 
@@ -39,7 +39,7 @@ TYPED_TEST_SUITE(QuatExponentialTest, MyTypes);
 
 TYPED_TEST(QuatExponentialTest, exp)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
 
     constexpr auto atol = QuatExponentialTest<TypeParam>::absolute_tolerance();
 
@@ -82,7 +82,7 @@ TYPED_TEST(QuatExponentialTest, exp)
 
 TYPED_TEST(QuatExponentialTest, log)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
 
     constexpr auto atol = QuatExponentialTest<TypeParam>::absolute_tolerance();
 
@@ -126,8 +126,8 @@ TYPED_TEST(QuatExponentialTest, log)
 
 TYPED_TEST(QuatExponentialTest, explog)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
 
     constexpr auto atol = QuatExponentialTest<TypeParam>::absolute_tolerance();

@@ -40,7 +40,7 @@ TYPED_TEST_SUITE(DualQuatExponentialTest, MyTypes);
 
 TYPED_TEST(DualQuatExponentialTest, exp)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
@@ -87,7 +87,7 @@ TYPED_TEST(DualQuatExponentialTest, exp)
 
 TYPED_TEST(DualQuatExponentialTest, log)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
@@ -134,8 +134,8 @@ TYPED_TEST(DualQuatExponentialTest, log)
 
 TYPED_TEST(DualQuatExponentialTest, explog)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
@@ -179,7 +179,7 @@ TYPED_TEST(DualQuatExponentialTest, explog)
 
 TYPED_TEST(DualQuatExponentialTest, pow)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();

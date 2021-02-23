@@ -38,7 +38,7 @@ TYPED_TEST_SUITE(DualQuatRelationalTest, MyTypes);
 
 TYPED_TEST(DualQuatRelationalTest, almost_equal)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
@@ -85,7 +85,7 @@ TYPED_TEST(DualQuatRelationalTest, almost_equal)
 
 TYPED_TEST(DualQuatRelationalTest, almost_zero)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
@@ -110,8 +110,8 @@ TYPED_TEST(DualQuatRelationalTest, almost_zero)
 
 TYPED_TEST(DualQuatRelationalTest, same_transformation)
 {
-    using Quat = Eigen::Quaternion<TypeParam>;
-    using Vec3 = typename Quat::Vector3;
+    using Vec3 = dualquat::Vector3<TypeParam>;
+    using Quat = dualquat::Quaternion<TypeParam>;
     using AngleAxis = typename Quat::AngleAxisType;
     using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
