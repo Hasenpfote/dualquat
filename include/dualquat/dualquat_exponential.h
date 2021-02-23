@@ -7,7 +7,7 @@
 #include <cmath>
 #include "quat_exponential.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /**
@@ -18,7 +18,7 @@ DualQuaternion<T>
 exp(const DualQuaternion<T>& dq)
 {
     DualQuaternion<T> temp;
-    temp.real() = eigen_ext::exp(dq.real());
+    temp.real() = dualquat::exp(dq.real());
 
     T sinc, alpha;
     const auto vn = dq.real().vec().norm();
@@ -50,7 +50,7 @@ DualQuaternion<T>
 log(const DualQuaternion<T>& dq)
 {
     DualQuaternion<T> temp;
-    temp.real() = eigen_ext::log(dq.real());
+    temp.real() = dualquat::log(dq.real());
 
     T phi_over_vn, alpha;
     const auto vn = dq.real().vec().norm();
@@ -84,4 +84,4 @@ pow(const DualQuaternion<T>& dq, T t)
     return exp(t * log(dq));
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

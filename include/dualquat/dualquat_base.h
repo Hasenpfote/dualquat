@@ -5,7 +5,7 @@
 
 #include <Eigen/Geometry>
 
-namespace eigen_ext
+namespace dualquat
 {
 
 template<typename T>
@@ -169,4 +169,4 @@ operator * (T lhs, const DualQuaternion<T>& rhs)
     return temp *= lhs;
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

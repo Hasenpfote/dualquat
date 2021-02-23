@@ -34,7 +34,7 @@ TYPED_TEST_SUITE(DualQuatCommonTest, MyTypes);
 TYPED_TEST(DualQuatCommonTest, norm)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -52,7 +52,7 @@ TYPED_TEST(DualQuatCommonTest, norm)
 TYPED_TEST(DualQuatCommonTest, squared_norm)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -75,7 +75,7 @@ TYPED_TEST(DualQuatCommonTest, identity)
     const auto Q_IDENTITY = Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0));
     const auto Q_ZERO = Quat(TypeParam(0), TypeParam(0), TypeParam(0), TypeParam(0));
 
-    auto res = eigen_ext::identity<TypeParam>();
+    auto res = dualquat::identity<TypeParam>();
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_IDENTITY, res.real(), atol);
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_ZERO, res.dual(), atol);
@@ -84,7 +84,7 @@ TYPED_TEST(DualQuatCommonTest, identity)
 TYPED_TEST(DualQuatCommonTest, inverse)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
     const auto Q_IDENTITY = Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0));
@@ -121,7 +121,7 @@ TYPED_TEST(DualQuatCommonTest, inverse)
 TYPED_TEST(DualQuatCommonTest, normalize)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -141,7 +141,7 @@ TYPED_TEST(DualQuatCommonTest, normalize)
 TYPED_TEST(DualQuatCommonTest, dual_conjugate)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -174,7 +174,7 @@ TYPED_TEST(DualQuatCommonTest, dual_conjugate)
 TYPED_TEST(DualQuatCommonTest, quaternion_conjugate)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -207,7 +207,7 @@ TYPED_TEST(DualQuatCommonTest, quaternion_conjugate)
 TYPED_TEST(DualQuatCommonTest, total_conjugate)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 
@@ -240,7 +240,7 @@ TYPED_TEST(DualQuatCommonTest, total_conjugate)
 TYPED_TEST(DualQuatCommonTest, difference)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatCommonTest<TypeParam>::absolute_tolerance();
 

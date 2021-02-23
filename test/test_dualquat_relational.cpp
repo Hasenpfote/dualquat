@@ -39,7 +39,7 @@ TYPED_TEST_SUITE(DualQuatRelationalTest, MyTypes);
 TYPED_TEST(DualQuatRelationalTest, almost_equal)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
 
@@ -53,7 +53,7 @@ TYPED_TEST(DualQuatRelationalTest, almost_equal)
             Quat(val2, val2, val2, val2),
             Quat(val2, val2, val2, val2));
 
-        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(dq1, dq2, atol));
+        EXPECT_TRUE(dualquat::almost_equal<TypeParam>(dq1, dq2, atol));
     }
     {
         constexpr auto val1 = 10 * atol;
@@ -65,7 +65,7 @@ TYPED_TEST(DualQuatRelationalTest, almost_equal)
             Quat(val2, val2, val2, val2),
             Quat(val2, val2, val2, val2));
 
-        EXPECT_FALSE(eigen_ext::almost_equal<TypeParam>(dq1, dq2, atol));
+        EXPECT_FALSE(dualquat::almost_equal<TypeParam>(dq1, dq2, atol));
     }
     {
         constexpr auto val1 = TypeParam(1000);
@@ -77,16 +77,16 @@ TYPED_TEST(DualQuatRelationalTest, almost_equal)
             Quat(val2, val2, val2, val2),
             Quat(val2, val2, val2, val2));
 
-        EXPECT_FALSE(eigen_ext::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-5)));
-        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-3)));
-        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-3), TypeParam(1e-5)));
+        EXPECT_FALSE(dualquat::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-5)));
+        EXPECT_TRUE(dualquat::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-3)));
+        EXPECT_TRUE(dualquat::almost_equal<TypeParam>(dq1, dq2, TypeParam(1e-3), TypeParam(1e-5)));
     }
 }
 
 TYPED_TEST(DualQuatRelationalTest, almost_zero)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
 
@@ -96,7 +96,7 @@ TYPED_TEST(DualQuatRelationalTest, almost_zero)
             Quat(val, val, val, val),
             Quat(val, val, val, val));
 
-        EXPECT_TRUE(eigen_ext::almost_zero<TypeParam>(dq, atol));
+        EXPECT_TRUE(dualquat::almost_zero<TypeParam>(dq, atol));
     }
     {
         constexpr auto val = 10 * atol;
@@ -104,7 +104,7 @@ TYPED_TEST(DualQuatRelationalTest, almost_zero)
             Quat(val, val, val, val),
             Quat(val, val, val, val));
 
-        EXPECT_FALSE(eigen_ext::almost_zero<TypeParam>(dq, atol));
+        EXPECT_FALSE(dualquat::almost_zero<TypeParam>(dq, atol));
     }
 }
 
@@ -113,7 +113,7 @@ TYPED_TEST(DualQuatRelationalTest, same_transformation)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatRelationalTest<TypeParam>::absolute_tolerance();
 
@@ -124,7 +124,7 @@ TYPED_TEST(DualQuatRelationalTest, same_transformation)
         const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
         const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
 
-        EXPECT_DEATH({ eigen_ext::same_transformation(dq, dq, atol); }, "");
+        EXPECT_DEATH({ dualquat::same_transformation(dq, dq, atol); }, "");
     }
 #endif
     // dq == dq
@@ -135,7 +135,7 @@ TYPED_TEST(DualQuatRelationalTest, same_transformation)
         const auto t = Quat(TypeParam(0), TypeParam(5), TypeParam(6), TypeParam(7));
         const auto dq = DualQuat(r, Quat(TypeParam(0.5) * (t * r).coeffs()));
 
-        EXPECT_TRUE(eigen_ext::same_transformation(dq, dq, atol));
+        EXPECT_TRUE(dualquat::same_transformation(dq, dq, atol));
     }
     // When the two axes of rotation are not parallel.
     {
@@ -149,8 +149,8 @@ TYPED_TEST(DualQuatRelationalTest, same_transformation)
         const auto dq1 = DualQuat(r1, Quat(TypeParam(0.5) * (t * r1).coeffs()));
         const auto dq2 = DualQuat(r2, Quat(TypeParam(0.5) * (t * r2).coeffs()));
 
-        EXPECT_FALSE(eigen_ext::same_transformation(dq1, dq2, atol));
-        EXPECT_FALSE(eigen_ext::same_transformation(dq2, dq1, atol));
+        EXPECT_FALSE(dualquat::same_transformation(dq1, dq2, atol));
+        EXPECT_FALSE(dualquat::same_transformation(dq2, dq1, atol));
     }
     // dq == -dq
     {
@@ -167,9 +167,9 @@ TYPED_TEST(DualQuatRelationalTest, same_transformation)
         const auto dq2 = DualQuat(dq2_real, dq2_dual);
         const auto minus_dq1 = DualQuat(Quat(-dq1_real.coeffs()), Quat(-dq1_dual.coeffs()));
 
-        EXPECT_TRUE(eigen_ext::almost_equal<TypeParam>(dq2, minus_dq1, atol));
-        EXPECT_TRUE(eigen_ext::same_transformation(dq1, dq2, atol));
-        EXPECT_TRUE(eigen_ext::same_transformation(dq2, dq1, atol));
+        EXPECT_TRUE(dualquat::almost_equal<TypeParam>(dq2, minus_dq1, atol));
+        EXPECT_TRUE(dualquat::same_transformation(dq1, dq2, atol));
+        EXPECT_TRUE(dualquat::same_transformation(dq2, dq1, atol));
     }
 }
 

@@ -8,7 +8,7 @@
 #include "quat_relational.h"
 #include "dualquat_query.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 template<typename T>
@@ -46,4 +46,4 @@ bool same_transformation(const DualQuaternion<T>& lhs, const DualQuaternion<T>& 
         || almost_equal(lhs, -rhs, tol);
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

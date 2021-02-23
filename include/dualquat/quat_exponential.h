@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /**
@@ -44,4 +44,4 @@ log(const Eigen::Quaternion<T>& q)
     return temp;
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

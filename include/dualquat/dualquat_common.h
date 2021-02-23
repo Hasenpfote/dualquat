@@ -6,7 +6,7 @@
 
 #include <utility>
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /* Dual-valued functions */
@@ -106,4 +106,4 @@ difference(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2)
     return inverse(dq1) * dq2;
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

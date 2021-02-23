@@ -6,7 +6,7 @@
 
 #include "dualquat_common.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /**
@@ -81,7 +81,7 @@ transform_point(const DualQuaternion<T>& dq, const DualQuaternion<T>& p)
 
 /**
  * Transforms a point with a unit dual quaternion.
- * @see eigen_ext::transform_point()
+ * @see dualquat::transform_point()
  */
 template<typename T>
 DualQuaternion<T>
@@ -104,7 +104,7 @@ transform_line(const DualQuaternion<T>& dq, const DualQuaternion<T>& l)
 
 /**
  * Transforms a line with a unit dual quaternion.
- * @see eigen_ext::transform_line()
+ * @see dualquat::transform_line()
  */
 template<typename T>
 DualQuaternion<T>
@@ -113,4 +113,4 @@ transform_line(const DualQuaternion<T>& dq, const Eigen::Matrix<T, 3, 1>& l, con
     return transform_line(dq, DualQuaternion<T>(l, m));
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

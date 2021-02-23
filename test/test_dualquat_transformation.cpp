@@ -52,7 +52,7 @@ TYPED_TEST(DualQuatTransformationTest, transformation_r_t)
     const auto real = r;
     const auto dual = Quat(TypeParam(0.5) * (t * r).coeffs());
 
-    auto res = eigen_ext::transformation(r, Vec3(t.vec()));
+    auto res = dualquat::transformation(r, Vec3(t.vec()));
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
@@ -73,7 +73,7 @@ TYPED_TEST(DualQuatTransformationTest, transformation_t_r)
     const auto real = r;
     const auto dual = Quat(TypeParam(0.5) * (r * t).coeffs());
 
-    auto res = eigen_ext::transformation(Vec3(t.vec()), r);
+    auto res = dualquat::transformation(Vec3(t.vec()), r);
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
@@ -94,7 +94,7 @@ TYPED_TEST(DualQuatTransformationTest, transformation_r)
     const auto real = r;
     const auto dual = zero;
 
-    auto res = eigen_ext::transformation(r);
+    auto res = dualquat::transformation(r);
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
@@ -112,7 +112,7 @@ TYPED_TEST(DualQuatTransformationTest, transformation_t)
     const auto real = Quat::Identity();
     const auto dual = Quat(TypeParam(0.5) * t.coeffs());
 
-    auto res = eigen_ext::transformation(Vec3(t.vec()));
+    auto res = dualquat::transformation(Vec3(t.vec()));
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
@@ -123,7 +123,7 @@ TYPED_TEST(DualQuatTransformationTest, transformational_difference)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatTransformationTest<TypeParam>::absolute_tolerance();
 
@@ -143,7 +143,7 @@ TYPED_TEST(DualQuatTransformationTest, transformational_difference)
     const auto dq1 = DualQuat(r1, Quat(TypeParam(0.5) * (t1 * r1).coeffs()));
     const auto dq2 = DualQuat(r2, Quat(TypeParam(0.5) * (t2 * r2).coeffs()));
 
-    const auto diff = eigen_ext::transformational_difference(dq1, dq2);
+    const auto diff = dualquat::transformational_difference(dq1, dq2);
     const auto res = dq1 * diff;
 
     EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res.real(), atol);
@@ -155,7 +155,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_point)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatTransformationTest<TypeParam>::absolute_tolerance();
 
@@ -168,7 +168,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_point)
     const auto dst = dq * DualQuat(src) * total_conjugate(dq);
 
     {
-        auto res = eigen_ext::transform_point(dq, DualQuat(src));
+        auto res = dualquat::transform_point(dq, DualQuat(src));
 
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
@@ -180,7 +180,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_point)
         EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
     }
     {
-        auto res = eigen_ext::transform_point(dq, src);
+        auto res = dualquat::transform_point(dq, src);
 
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
@@ -198,7 +198,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_line)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatTransformationTest<TypeParam>::absolute_tolerance();
 
@@ -212,7 +212,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_line)
     const auto dst = dq * DualQuat(l, m) * quaternion_conjugate(dq);
 
     {
-        auto res = eigen_ext::transform_line(dq, DualQuat(l, m));
+        auto res = dualquat::transform_line(dq, DualQuat(l, m));
 
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);
@@ -224,7 +224,7 @@ TYPED_TEST(DualQuatTransformationTest, transform_line)
         EXPECT_ALMOST_EQUAL(TypeParam, dst.dual().z(), res.dual().z(), atol);
     }
     {
-        auto res = eigen_ext::transform_line(dq, l, m);
+        auto res = dualquat::transform_line(dq, l, m);
 
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().w(), res.real().w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, dst.real().x(), res.real().x(), atol);

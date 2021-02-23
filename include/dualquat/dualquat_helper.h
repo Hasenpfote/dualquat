@@ -9,7 +9,7 @@
 #include "dualquat_common.h"
 #include "dualquat_exponential.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /**
@@ -81,4 +81,4 @@ sclerp_shortestpath(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, 
     return dq1 * pow(diff, t);
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

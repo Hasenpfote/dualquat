@@ -6,7 +6,7 @@
 
 #include "dualquat_relational.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 template<typename T>
@@ -44,4 +44,4 @@ is_unit(const DualQuaternion<T>& dq, T tol)
         && almost_equal(Matrix1(dq.real().dot(dq.dual())), Matrix1(T(0)), tol);
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

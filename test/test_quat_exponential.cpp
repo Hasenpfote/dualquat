@@ -54,7 +54,7 @@ TYPED_TEST(QuatExponentialTest, exp)
         exp_q.vec() = sinc * q.vec();
         exp_q.coeffs() *= std::exp(q.w());
 
-        auto res = eigen_ext::exp(q);
+        auto res = dualquat::exp(q);
 
         EXPECT_ALMOST_EQUAL(TypeParam, exp_q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, exp_q.x(), res.x(), atol);
@@ -71,7 +71,7 @@ TYPED_TEST(QuatExponentialTest, exp)
         exp_q.vec() = q.vec();
         exp_q.coeffs() *= std::exp(q.w());
 
-        auto res = eigen_ext::exp(q);
+        auto res = dualquat::exp(q);
 
         EXPECT_ALMOST_EQUAL(TypeParam, exp_q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, exp_q.x(), res.x(), atol);
@@ -98,7 +98,7 @@ TYPED_TEST(QuatExponentialTest, log)
         log_q.w() = std::log(qn);
         log_q.vec() = phi_over_vn * q.vec();
 
-        auto res = eigen_ext::log(q);
+        auto res = dualquat::log(q);
 
         EXPECT_ALMOST_EQUAL(TypeParam, log_q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, log_q.x(), res.x(), atol);
@@ -115,7 +115,7 @@ TYPED_TEST(QuatExponentialTest, log)
         log_q.w() = std::log(qn);
         log_q.vec() = phi_over_vn * q.vec();
 
-        auto res = eigen_ext::log(q);
+        auto res = dualquat::log(q);
 
         EXPECT_ALMOST_EQUAL(TypeParam, log_q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, log_q.x(), res.x(), atol);
@@ -136,14 +136,14 @@ TYPED_TEST(QuatExponentialTest, explog)
         const auto angle = TypeParam(0);
         const auto q = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
 
-        auto res = eigen_ext::log(eigen_ext::exp(q));
+        auto res = dualquat::log(dualquat::exp(q));
 
         EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
 
-        res = eigen_ext::exp(eigen_ext::log(q));
+        res = dualquat::exp(dualquat::log(q));
 
         EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
@@ -154,14 +154,14 @@ TYPED_TEST(QuatExponentialTest, explog)
         const auto angle = TypeParam(2) * QuatExponentialTest<TypeParam>::PI;
         const auto q = Quat(AngleAxis(angle, Vec3(TypeParam(1), TypeParam(0), TypeParam(0))));
 
-        auto res = eigen_ext::log(eigen_ext::exp(q));
+        auto res = dualquat::log(dualquat::exp(q));
 
         EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
 
-        res = eigen_ext::exp(eigen_ext::log(q));
+        res = dualquat::exp(dualquat::log(q));
 
         EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
         EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);

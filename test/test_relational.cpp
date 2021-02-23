@@ -42,8 +42,8 @@ TYPED_TEST(RelationalTest, almost_equal)
         const auto s1 = Matrix1(val1);
         const auto s2 = Matrix1(val2);
 
-        EXPECT_TRUE(eigen_ext::almost_equal(s1, s2, atol));
-        EXPECT_TRUE(eigen_ext::almost_equal(s2, s1, atol));
+        EXPECT_TRUE(dualquat::almost_equal(s1, s2, atol));
+        EXPECT_TRUE(dualquat::almost_equal(s2, s1, atol));
     }
     {
         constexpr auto val1 = 10 * atol;
@@ -51,8 +51,8 @@ TYPED_TEST(RelationalTest, almost_equal)
         const auto s1 = Matrix1(val1);
         const auto s2 = Matrix1(val2);
 
-        EXPECT_FALSE(eigen_ext::almost_equal(s1, s2, atol));
-        EXPECT_FALSE(eigen_ext::almost_equal(s2, s1, atol));
+        EXPECT_FALSE(dualquat::almost_equal(s1, s2, atol));
+        EXPECT_FALSE(dualquat::almost_equal(s2, s1, atol));
     }
     {
         constexpr auto val1 = TypeParam(1000);
@@ -60,9 +60,9 @@ TYPED_TEST(RelationalTest, almost_equal)
         const auto s1 = Matrix1(val1);
         const auto s2 = Matrix1(val2);
 
-        EXPECT_FALSE(eigen_ext::almost_equal(s1, s2, TypeParam(1e-5)));
-        EXPECT_TRUE(eigen_ext::almost_equal(s1, s2, TypeParam(1e-3)));
-        EXPECT_TRUE(eigen_ext::almost_equal(s1, s2, TypeParam(1e-3), TypeParam(1e-5)));
+        EXPECT_FALSE(dualquat::almost_equal(s1, s2, TypeParam(1e-5)));
+        EXPECT_TRUE(dualquat::almost_equal(s1, s2, TypeParam(1e-3)));
+        EXPECT_TRUE(dualquat::almost_equal(s1, s2, TypeParam(1e-3), TypeParam(1e-5)));
     }
 }
 
@@ -76,13 +76,13 @@ TYPED_TEST(RelationalTest, almost_zero)
         constexpr auto val = atol;
         const auto s = Matrix1(val);
 
-        EXPECT_TRUE(eigen_ext::almost_zero(s, atol));
+        EXPECT_TRUE(dualquat::almost_zero(s, atol));
     }
     {
         constexpr auto val = 10 * atol;
         const auto s = Matrix1(val);
 
-        EXPECT_FALSE(eigen_ext::almost_zero(s, atol));
+        EXPECT_FALSE(dualquat::almost_zero(s, atol));
     }
 }
 

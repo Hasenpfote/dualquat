@@ -41,7 +41,7 @@ TYPED_TEST_SUITE(DualQuatExponentialTest, MyTypes);
 TYPED_TEST(DualQuatExponentialTest, exp)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
 
@@ -54,7 +54,7 @@ TYPED_TEST(DualQuatExponentialTest, exp)
         const auto alpha = (std::cos(vn) - sinc) / (vn * vn);
         const auto vdot = a.vec().dot(b.vec());
 
-        auto real = eigen_ext::exp(a);
+        auto real = dualquat::exp(a);
         Quat dual;
         dual.w() = - vdot * sinc;
         dual.vec() = sinc * b.vec() + vdot * alpha * a.vec();
@@ -72,7 +72,7 @@ TYPED_TEST(DualQuatExponentialTest, exp)
         const auto alpha = - TypeParam(1) / TypeParam(3);
         const auto vdot = a.vec().dot(b.vec());
 
-        auto real = eigen_ext::exp(a);
+        auto real = dualquat::exp(a);
         Quat dual;
         dual.w() = -vdot;
         dual.vec() = b.vec() + vdot * alpha * a.vec();
@@ -88,7 +88,7 @@ TYPED_TEST(DualQuatExponentialTest, exp)
 TYPED_TEST(DualQuatExponentialTest, log)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
 
@@ -102,7 +102,7 @@ TYPED_TEST(DualQuatExponentialTest, log)
         const auto phi_over_vn = phi / vn;
         const auto alpha = (a.w() - phi_over_vn * qn * qn) / (vn * vn);
 
-        auto real = eigen_ext::log(a);
+        auto real = dualquat::log(a);
         Quat dual;
         dual.w() = a.dot(b) / (qn * qn);
         dual.vec() = phi_over_vn * b.vec() + ((a.vec().dot(b.vec()) * alpha - b.w()) / (qn * qn)) * a.vec();
@@ -120,7 +120,7 @@ TYPED_TEST(DualQuatExponentialTest, log)
         const auto phi_over_vn = TypeParam(1) / qn;
         const auto alpha = (-TypeParam(2) / TypeParam(3)) / qn;
 
-        auto real = eigen_ext::log(a);
+        auto real = dualquat::log(a);
         Quat dual;
         dual.w() = a.dot(b) / (qn * qn);
         dual.vec() = phi_over_vn * b.vec() + ((a.vec().dot(b.vec()) * alpha - b.w()) / (qn * qn)) * a.vec();
@@ -137,7 +137,7 @@ TYPED_TEST(DualQuatExponentialTest, explog)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
 
@@ -180,7 +180,7 @@ TYPED_TEST(DualQuatExponentialTest, explog)
 TYPED_TEST(DualQuatExponentialTest, pow)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatExponentialTest<TypeParam>::absolute_tolerance();
     const auto Q_IDENTITY = Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0));

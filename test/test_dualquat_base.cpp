@@ -34,7 +34,7 @@ TYPED_TEST(DualQuatBaseTest, Constructor)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -61,7 +61,7 @@ TYPED_TEST(DualQuatBaseTest, Constructor)
 TYPED_TEST(DualQuatBaseTest, Accessor)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -84,7 +84,7 @@ TYPED_TEST(DualQuatBaseTest, Accessor)
 TYPED_TEST(DualQuatBaseTest, AdditionAssignment)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -106,7 +106,7 @@ TYPED_TEST(DualQuatBaseTest, AdditionAssignment)
 TYPED_TEST(DualQuatBaseTest, SubtractionAssignment)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -128,7 +128,7 @@ TYPED_TEST(DualQuatBaseTest, SubtractionAssignment)
 TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -166,7 +166,7 @@ TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
 TYPED_TEST(DualQuatBaseTest, UnaryPlus)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
     const auto a = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
@@ -183,7 +183,7 @@ TYPED_TEST(DualQuatBaseTest, UnaryPlus)
 TYPED_TEST(DualQuatBaseTest, UnaryMinus)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
     const auto a = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
@@ -200,7 +200,7 @@ TYPED_TEST(DualQuatBaseTest, UnaryMinus)
 TYPED_TEST(DualQuatBaseTest, Addition)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -220,7 +220,7 @@ TYPED_TEST(DualQuatBaseTest, Addition)
 TYPED_TEST(DualQuatBaseTest, Subtraction)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 
@@ -240,7 +240,7 @@ TYPED_TEST(DualQuatBaseTest, Subtraction)
 TYPED_TEST(DualQuatBaseTest, Multiplication)
 {
     using Quat = Eigen::Quaternion<TypeParam>;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatBaseTest<TypeParam>::absolute_tolerance();
 

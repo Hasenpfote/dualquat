@@ -34,10 +34,10 @@ Supports C++ 11 or higher.
 int main()
 {
     using value_type = double;
-	using Quat = Eigen::Quaternion<value_type>;
+    using Quat = Eigen::Quaternion<value_type>;
     using Vec3 = Quat::Vector3;
-	using AngleAxis = Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<value_type>;
+    using AngleAxis = Quat::AngleAxisType;
+    using DualQuat = dualquat::DualQuaternion<value_type>;
 
     Quat r = AngleAxis(
         std::acos(-1.0),
@@ -46,7 +46,7 @@ int main()
     auto t = Vec3(1.0, 2.0, 3.0);
 
     auto src = Vec3(0.0, 0.0, 0.0);
-    auto dst = transform(eigen_ext::transformation(r, t), src);
+    auto dst = transform(dualquat::transformation(r, t), src);
 
     return 0;
 }

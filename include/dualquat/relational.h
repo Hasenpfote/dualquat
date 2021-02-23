@@ -4,7 +4,7 @@
  */
 #pragma once
 
-namespace eigen_ext
+namespace dualquat
 {
 
 /**
@@ -45,4 +45,4 @@ bool almost_zero(
     return (x.derived().array().abs() <= tol).all();
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

@@ -7,7 +7,7 @@
 #include <cassert>
 #include "relational.h"
 
-namespace eigen_ext
+namespace dualquat
 {
 
 template<typename T>
@@ -47,4 +47,4 @@ bool same_rotation(const Eigen::Quaternion<T>& lhs, const Eigen::Quaternion<T>& 
         || almost_equal(lhs.coeffs(), Coefficients(-rhs.coeffs()), tol);
 }
 
-}   // namespace eigen_ext
+}   // namespace dualquat

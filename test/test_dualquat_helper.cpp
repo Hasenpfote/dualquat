@@ -49,8 +49,8 @@ TYPED_TEST(DualQuatHelperTest, screw)
     const auto m = Vec3(TypeParam(1), TypeParam(0), TypeParam(0));
     const auto theta = TypeParam(0.5) * DualQuatHelperTest<TypeParam>::PI;
     const auto d = TypeParam(2);
-    const auto dq = eigen_ext::convert_to_dualquat(l, m, theta, d);
-    const auto sc = eigen_ext::convert_to_screw(dq);
+    const auto dq = dualquat::convert_to_dualquat(l, m, theta, d);
+    const auto sc = dualquat::convert_to_screw(dq);
 
     EXPECT_ALMOST_EQUAL(TypeParam, l.x(), std::get<0>(sc).x(), atol);
     EXPECT_ALMOST_EQUAL(TypeParam, l.y(), std::get<0>(sc).y(), atol);
@@ -69,7 +69,7 @@ TYPED_TEST(DualQuatHelperTest, sclerp)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
 
@@ -100,7 +100,7 @@ TYPED_TEST(DualQuatHelperTest, sclerp_shortestpath)
     using Quat = Eigen::Quaternion<TypeParam>;
     using Vec3 = typename Quat::Vector3;
     using AngleAxis = typename Quat::AngleAxisType;
-    using DualQuat = eigen_ext::DualQuaternion<TypeParam>;
+    using DualQuat = dualquat::DualQuaternion<TypeParam>;
 
     constexpr auto atol = DualQuatHelperTest<TypeParam>::absolute_tolerance();
 
