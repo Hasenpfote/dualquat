@@ -62,8 +62,8 @@ TYPED_TEST(DualQuatExponentialTest, exp)
 
         auto res = exp(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // Singularity.
     {
@@ -80,8 +80,8 @@ TYPED_TEST(DualQuatExponentialTest, exp)
 
         auto res = exp(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
 }
 
@@ -109,8 +109,8 @@ TYPED_TEST(DualQuatExponentialTest, log)
 
         auto res = log(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // Singularity.
     {
@@ -127,8 +127,8 @@ TYPED_TEST(DualQuatExponentialTest, log)
 
         auto res = log(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
 }
 
@@ -150,13 +150,13 @@ TYPED_TEST(DualQuatExponentialTest, explog)
 
         auto res = log(exp(dq));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.dual(), res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.real(), res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.dual(), res.dual(), atol);
 
         res = exp(log(dq));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.dual(), res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.real(), res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.dual(), res.dual(), atol);
     }
     {
         const auto angle = (TypeParam(2) - atol) * DualQuatExponentialTest<TypeParam>::PI;
@@ -167,13 +167,13 @@ TYPED_TEST(DualQuatExponentialTest, explog)
 
         auto res = log(exp(dq));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.dual(), res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.real(), res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.dual(), res.dual(), atol);
 
         res = exp(log(dq));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq.dual(), res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.real(), res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dq.dual(), res.dual(), atol);
     }
 }
 
@@ -193,8 +193,8 @@ TYPED_TEST(DualQuatExponentialTest, pow)
 
         auto res = pow(DualQuat(a, b), s);
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_IDENTITY, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_ZERO, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_IDENTITY, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_ZERO, res.dual(), atol);
     }
     {
         const auto a = Quat(TypeParam(1), TypeParam(2), TypeParam(3), TypeParam(4));
@@ -205,8 +205,8 @@ TYPED_TEST(DualQuatExponentialTest, pow)
 
         auto res = pow(DualQuat(a, b), s);
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, pow_dq.real(), res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, pow_dq.dual(), res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(pow_dq.real(), res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(pow_dq.dual(), res.dual(), atol);
     }
 }
 

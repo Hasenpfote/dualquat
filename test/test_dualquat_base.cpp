@@ -42,20 +42,20 @@ TYPED_TEST(DualQuatBaseTest, Constructor)
     const auto dual = Quat(TypeParam(5), TypeParam(6), TypeParam(7), TypeParam(8));
 
     const DualQuat res1(real, dual);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res1.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res1.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res1.dual(), atol);
 
     const DualQuat res2(dual.coeffs().head(3));
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0)), res2.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat(TypeParam(0), TypeParam(6), TypeParam(7), TypeParam(8)), res2.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Quat(TypeParam(1), TypeParam(0), TypeParam(0), TypeParam(0)), res2.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Quat(TypeParam(0), TypeParam(6), TypeParam(7), TypeParam(8)), res2.dual(), atol);
 
     const auto from = Vec3(TypeParam(0), TypeParam(2), TypeParam(6));
     const auto to = Vec3(TypeParam(0), TypeParam(2), TypeParam(4));
     const auto l = to - from;
     const auto m = from.cross(l);
     const DualQuat res3(l, m);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat((Quat().coeffs() << l, TypeParam(0)).finished()), res3.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Quat((Quat().coeffs() << m, TypeParam(0)).finished()), res3.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Quat((Quat().coeffs() << l, TypeParam(0)).finished()), res3.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Quat((Quat().coeffs() << m, TypeParam(0)).finished()), res3.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, Accessor)
@@ -70,14 +70,14 @@ TYPED_TEST(DualQuatBaseTest, Accessor)
 
     {
         const DualQuat res1(real, dual);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res1.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res1.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res1.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res1.dual(), atol);
 
         DualQuat res2;
         res2.real() = real;
         res2.dual() = dual;
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res2.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res2.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res2.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res2.dual(), atol);
     }
 }
 
@@ -99,8 +99,8 @@ TYPED_TEST(DualQuatBaseTest, AdditionAssignment)
     DualQuat rhs(c, d);
     lhs += rhs;
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, lhs.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, lhs.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, lhs.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, lhs.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, SubtractionAssignment)
@@ -121,8 +121,8 @@ TYPED_TEST(DualQuatBaseTest, SubtractionAssignment)
     DualQuat rhs(c, d);
     lhs -= rhs;
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, lhs.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, lhs.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, lhs.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, lhs.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
@@ -146,8 +146,8 @@ TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
         DualQuat rhs(c, d);
         lhs *= rhs;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, lhs.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, lhs.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, lhs.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, lhs.dual(), atol);
     }
     // dq * scalar
     {
@@ -158,8 +158,8 @@ TYPED_TEST(DualQuatBaseTest, MultiplicationAssignment)
         DualQuat lhs(a, b);
         lhs *= s;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, lhs.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, lhs.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, lhs.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, lhs.dual(), atol);
     }
 }
 
@@ -176,8 +176,8 @@ TYPED_TEST(DualQuatBaseTest, UnaryPlus)
 
     auto res = +DualQuat(a, b);
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, UnaryMinus)
@@ -193,8 +193,8 @@ TYPED_TEST(DualQuatBaseTest, UnaryMinus)
 
     auto res = -DualQuat(a, b);
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, Addition)
@@ -213,8 +213,8 @@ TYPED_TEST(DualQuatBaseTest, Addition)
 
     auto res = DualQuat(a, b) + DualQuat(c, d);
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, Subtraction)
@@ -233,8 +233,8 @@ TYPED_TEST(DualQuatBaseTest, Subtraction)
 
     auto res = DualQuat(a, b) - DualQuat(c, d);
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatBaseTest, Multiplication)
@@ -256,8 +256,8 @@ TYPED_TEST(DualQuatBaseTest, Multiplication)
 
         auto res = DualQuat(a, b) * DualQuat(c, d);
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // dq * scalar
     {
@@ -267,8 +267,8 @@ TYPED_TEST(DualQuatBaseTest, Multiplication)
 
         auto res = DualQuat(a, b) * s;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // scalar * dq
     {
@@ -278,8 +278,8 @@ TYPED_TEST(DualQuatBaseTest, Multiplication)
 
         auto res = s * DualQuat(a, b);
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
 }
 

@@ -45,8 +45,8 @@ TYPED_TEST(DualQuatCommonTest, norm)
 
     auto res = norm(DualQuat(a, b));
 
-    EXPECT_ALMOST_EQUAL(TypeParam, real, res.first, atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, dual, res.second, atol);
+    EXPECT_ALMOST_EQUAL(real, res.first, atol);
+    EXPECT_ALMOST_EQUAL(dual, res.second, atol);
 }
 
 TYPED_TEST(DualQuatCommonTest, squared_norm)
@@ -63,8 +63,8 @@ TYPED_TEST(DualQuatCommonTest, squared_norm)
 
     auto res = squared_norm(DualQuat(a, b));
 
-    EXPECT_ALMOST_EQUAL(TypeParam, real, res.first, atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, dual, res.second, atol);
+    EXPECT_ALMOST_EQUAL(real, res.first, atol);
+    EXPECT_ALMOST_EQUAL(dual, res.second, atol);
 }
 
 TYPED_TEST(DualQuatCommonTest, identity)
@@ -77,8 +77,8 @@ TYPED_TEST(DualQuatCommonTest, identity)
 
     auto res = dualquat::identity<TypeParam>();
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_IDENTITY, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_ZERO, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Q_IDENTITY, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(Q_ZERO, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatCommonTest, inverse)
@@ -99,22 +99,22 @@ TYPED_TEST(DualQuatCommonTest, inverse)
     {
         auto res = inv;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // dq * inv
     {
         auto res = dq * inv;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_IDENTITY, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_ZERO, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_IDENTITY, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_ZERO, res.dual(), atol);
     }
     // inv * dq
     {
         auto res = inv * dq;
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_IDENTITY, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, Q_ZERO, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_IDENTITY, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(Q_ZERO, res.dual(), atol);
     }
 }
 
@@ -134,8 +134,8 @@ TYPED_TEST(DualQuatCommonTest, normalize)
 
     auto res = normalize(DualQuat(a, b));
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
 }
 
 TYPED_TEST(DualQuatCommonTest, dual_conjugate)
@@ -153,8 +153,8 @@ TYPED_TEST(DualQuatCommonTest, dual_conjugate)
     {
         auto res = dual_conjugate(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // (dq * conj) != (conj * dq)
     {
@@ -165,9 +165,9 @@ TYPED_TEST(DualQuatCommonTest, dual_conjugate)
         auto res2 = conj * dq;
 
         // Real(dq * conj) == Real(conj * dq)
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, res1.real(), res2.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(res1.real(), res2.real(), atol);
         // Dual(dq * conj) != Dual(conj * dq)
-        EXPECT_QUAT_NOT_ALMOST_EQUAL(TypeParam, res1.dual(), res2.dual(), atol);
+        EXPECT_QUAT_NOT_ALMOST_EQUAL(res1.dual(), res2.dual(), atol);
     }
 }
 
@@ -186,8 +186,8 @@ TYPED_TEST(DualQuatCommonTest, quaternion_conjugate)
     {
         auto res = quaternion_conjugate(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // (dq * conj) == (conj * dq)
     {
@@ -198,9 +198,9 @@ TYPED_TEST(DualQuatCommonTest, quaternion_conjugate)
         auto res2 = conj * dq;
 
         // Real(dq * conj) == Real(conj * dq)
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, res1.real(), res2.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(res1.real(), res2.real(), atol);
         // Dual(dq * conj) == Dual(conj * dq)
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, res1.dual(), res2.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(res1.dual(), res2.dual(), atol);
     }
 }
 
@@ -219,8 +219,8 @@ TYPED_TEST(DualQuatCommonTest, total_conjugate)
     {
         auto res = total_conjugate(DualQuat(a, b));
 
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, real, res.real(), atol);
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dual, res.dual(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(real, res.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(dual, res.dual(), atol);
     }
     // (dq * conj) != (conj * dq)
     {
@@ -231,9 +231,9 @@ TYPED_TEST(DualQuatCommonTest, total_conjugate)
         auto res2 = conj * dq;
 
         // Real(dq * conj) == Real(conj * dq)
-        EXPECT_QUAT_ALMOST_EQUAL(TypeParam, res1.real(), res2.real(), atol);
+        EXPECT_QUAT_ALMOST_EQUAL(res1.real(), res2.real(), atol);
         // Dual(dq * conj) != Dual(conj * dq)
-        EXPECT_QUAT_NOT_ALMOST_EQUAL(TypeParam, res1.dual(), res2.dual(), atol);
+        EXPECT_QUAT_NOT_ALMOST_EQUAL(res1.dual(), res2.dual(), atol);
     }
 }
 
@@ -256,8 +256,8 @@ TYPED_TEST(DualQuatCommonTest, difference)
     const auto diff = difference(dq1, dq2);
     const auto res = dq1 * diff;
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq2.real(), res.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq2.dual(), res.dual(), atol);
 }
 
 }   // namespace

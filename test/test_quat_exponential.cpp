@@ -56,10 +56,10 @@ TYPED_TEST(QuatExponentialTest, exp)
 
         auto res = dualquat::exp(q);
 
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.z(), res.z(), atol);
     }
     // Singularity.
     {
@@ -73,10 +73,10 @@ TYPED_TEST(QuatExponentialTest, exp)
 
         auto res = dualquat::exp(q);
 
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, exp_q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(exp_q.z(), res.z(), atol);
     }
 }
 
@@ -100,10 +100,10 @@ TYPED_TEST(QuatExponentialTest, log)
 
         auto res = dualquat::log(q);
 
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.z(), res.z(), atol);
     }
     // Singularity.
     {
@@ -117,10 +117,10 @@ TYPED_TEST(QuatExponentialTest, log)
 
         auto res = dualquat::log(q);
 
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, log_q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(log_q.z(), res.z(), atol);
     }
 }
 
@@ -138,17 +138,17 @@ TYPED_TEST(QuatExponentialTest, explog)
 
         auto res = dualquat::log(dualquat::exp(q));
 
-        EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(q.z(), res.z(), atol);
 
         res = dualquat::exp(dualquat::log(q));
 
-        EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(q.z(), res.z(), atol);
     }
     {
         const auto angle = TypeParam(2) * QuatExponentialTest<TypeParam>::PI;
@@ -156,17 +156,17 @@ TYPED_TEST(QuatExponentialTest, explog)
 
         auto res = dualquat::log(dualquat::exp(q));
 
-        EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(q.z(), res.z(), atol);
 
         res = dualquat::exp(dualquat::log(q));
 
-        EXPECT_ALMOST_EQUAL(TypeParam, q.w(), res.w(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.x(), res.x(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.y(), res.y(), atol);
-        EXPECT_ALMOST_EQUAL(TypeParam, q.z(), res.z(), atol);
+        EXPECT_ALMOST_EQUAL(q.w(), res.w(), atol);
+        EXPECT_ALMOST_EQUAL(q.x(), res.x(), atol);
+        EXPECT_ALMOST_EQUAL(q.y(), res.y(), atol);
+        EXPECT_ALMOST_EQUAL(q.z(), res.z(), atol);
     }
 }
 

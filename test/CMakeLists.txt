@@ -46,7 +46,6 @@ target_sources(
     ${TEST_NAME}
     PRIVATE
     gtest_helper.h
-    gtest_helper.cpp
     test_relational.cpp
     test_quat_relational.cpp
     test_quat_exponential.cpp
@@ -86,7 +85,7 @@ target_link_libraries(
     gtest
     gmock_main
     )
-    
+
 target_compile_definitions(
     ${TEST_NAME}
     PRIVATE

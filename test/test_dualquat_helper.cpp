@@ -51,16 +51,16 @@ TYPED_TEST(DualQuatHelperTest, screw)
     const auto dq = dualquat::convert_to_dualquat(l, m, theta, d);
     const auto sc = dualquat::convert_to_screw(dq);
 
-    EXPECT_ALMOST_EQUAL(TypeParam, l.x(), std::get<0>(sc).x(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, l.y(), std::get<0>(sc).y(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, l.z(), std::get<0>(sc).z(), atol);
+    EXPECT_ALMOST_EQUAL(l.x(), std::get<0>(sc).x(), atol);
+    EXPECT_ALMOST_EQUAL(l.y(), std::get<0>(sc).y(), atol);
+    EXPECT_ALMOST_EQUAL(l.z(), std::get<0>(sc).z(), atol);
 
-    EXPECT_ALMOST_EQUAL(TypeParam, m.x(), std::get<1>(sc).x(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, m.y(), std::get<1>(sc).y(), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, m.z(), std::get<1>(sc).z(), atol);
+    EXPECT_ALMOST_EQUAL(m.x(), std::get<1>(sc).x(), atol);
+    EXPECT_ALMOST_EQUAL(m.y(), std::get<1>(sc).y(), atol);
+    EXPECT_ALMOST_EQUAL(m.z(), std::get<1>(sc).z(), atol);
 
-    EXPECT_ALMOST_EQUAL(TypeParam, theta, std::get<2>(sc), atol);
-    EXPECT_ALMOST_EQUAL(TypeParam, d, std::get<3>(sc), atol);
+    EXPECT_ALMOST_EQUAL(theta, std::get<2>(sc), atol);
+    EXPECT_ALMOST_EQUAL(d, std::get<3>(sc), atol);
 }
 
 TYPED_TEST(DualQuatHelperTest, sclerp)
@@ -84,14 +84,14 @@ TYPED_TEST(DualQuatHelperTest, sclerp)
     // t == 0
     const auto res0 = sclerp(dq1, dq2, TypeParam(0));
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.real(), res0.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.dual(), res0.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq1.real(), res0.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq1.dual(), res0.dual(), atol);
 
     // t == 1
     const auto res1 = sclerp(dq1, dq2, TypeParam(1));
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.real(), res1.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq2.dual(), res1.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq2.real(), res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq2.dual(), res1.dual(), atol);
 }
 
 TYPED_TEST(DualQuatHelperTest, sclerp_shortestpath)
@@ -115,15 +115,15 @@ TYPED_TEST(DualQuatHelperTest, sclerp_shortestpath)
     // t == 0
     const auto res0 = sclerp_shortestpath(dq1, dq2, TypeParam(0));
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.real(), res0.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, dq1.dual(), res0.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq1.real(), res0.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(dq1.dual(), res0.dual(), atol);
 
     // t == 1
     const auto res1 = sclerp_shortestpath(dq1, dq2, TypeParam(1));
     const auto minus_dq2 = DualQuat(Quat(-dq2.real().coeffs()), Quat(-dq2.dual().coeffs()));
 
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, minus_dq2.real(), res1.real(), atol);
-    EXPECT_QUAT_ALMOST_EQUAL(TypeParam, minus_dq2.dual(), res1.dual(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(minus_dq2.real(), res1.real(), atol);
+    EXPECT_QUAT_ALMOST_EQUAL(minus_dq2.dual(), res1.dual(), atol);
 }
 
 }   // namespace
