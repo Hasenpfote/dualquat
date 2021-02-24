@@ -4,34 +4,36 @@
  */
 #pragma once
 
+#include <Eigen/Core>
+
 namespace dualquat
 {
 
 /**
  * Returns true if two matrices are element-wise equal within tolerance.
  */
-template<typename Derived>
+template<typename DerivedA, typename DerivedB>
 bool almost_equal(
-    const Eigen::DenseBase<Derived>& lhs,
-    const Eigen::DenseBase<Derived>& rhs,
-    const typename Derived::RealScalar& rtol,
-    const typename Derived::RealScalar& atol)
+    const Eigen::MatrixBase<DerivedA>& lhs,
+    const Eigen::MatrixBase<DerivedB>& rhs,
+    const typename DerivedA::RealScalar& rel_tolerance,
+    const typename DerivedA::RealScalar& abs_tolerance)
 {
-    return ((lhs.derived() - rhs.derived()).array().abs()
-        <= Eigen::DenseBase<Derived>::Constant(atol).array().max(rtol * lhs.derived().array().abs().max(rhs.derived().array().abs()))).all();
+    return ((lhs - rhs).array().abs()
+        <= Eigen::MatrixBase<DerivedA>::Constant(abs_tolerance).array().max(rel_tolerance * lhs.array().abs().max(rhs.array().abs()))).all();
 }
 
 /**
  * Returns true if two matrices are element-wise equal within tolerance.
  */
-template<typename Derived>
+template<typename DerivedA, typename DerivedB>
 bool almost_equal(
-    const Eigen::DenseBase<Derived>& lhs,
-    const Eigen::DenseBase<Derived>& rhs,
-    const typename Derived::RealScalar& tol)
+    const Eigen::MatrixBase<DerivedA>& lhs,
+    const Eigen::MatrixBase<DerivedB>& rhs,
+    const typename DerivedA::RealScalar& tolerance)
 {
-    return ((lhs.derived() - rhs.derived()).array().abs()
-        <= tol * Eigen::DenseBase<Derived>::Ones().array().max(lhs.derived().array().abs().max(rhs.derived().array().abs()))).all();
+    return ((lhs - rhs).array().abs()
+        <= tolerance * Eigen::MatrixBase<DerivedA>::Ones().array().max(lhs.array().abs().max(rhs.array().abs()))).all();
 }
 
 /**
@@ -39,10 +41,10 @@ bool almost_equal(
  */
 template<typename Derived>
 bool almost_zero(
-    const Eigen::DenseBase<Derived>& x,
-    const typename Derived::RealScalar& tol)
+    const Eigen::MatrixBase<Derived>& x,
+    const typename Derived::RealScalar& tolerance)
 {
-    return (x.derived().array().abs() <= tol).all();
+    return (x.array().abs() <= tolerance).all();
 }
 
 }   // namespace dualquat
