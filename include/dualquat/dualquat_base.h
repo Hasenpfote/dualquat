@@ -41,6 +41,15 @@ public:
     {}
 
     /**
+     *  Create new dual quaternon given 8 numbers
+    */
+    DualQuaternion(const T& w_real, const T& x_real, const T& y_real, const T& z_real, const T& w_dual, const T& x_dual, const T& y_dual, const T& z_dual)
+    : DualQuaternion(Quaternion<T>(w_real,x_real,y_real,z_real),
+        Quaternion<T>(w_dual,x_dual,y_dual,z_dual))
+
+    {}
+
+    /**
      * Creates a new dual quaternion with the given vector.
      */
     explicit DualQuaternion(const Vector3<T>& v)
@@ -69,7 +78,8 @@ public:
     DualQuaternion& operator += (const DualQuaternion&);
     DualQuaternion& operator -= (const DualQuaternion&);
     DualQuaternion& operator *= (const DualQuaternion&);
-    DualQuaternion& operator *= (T);
+    DualQuaternion& operator *= (const T&);
+    //DualQuaternion<T>& operator *= (const Eigen::Matrix<T,8,8>& rhs); TODO
 
 private:
     static constexpr bool needs_to_align = (sizeof(Quaternion<T>) % 16) == 0;
@@ -106,7 +116,7 @@ template<typename T>
 DualQuaternion<T>&
 DualQuaternion<T>::operator *= (const DualQuaternion& rhs)
 {
-    auto temp = real_;
+    Eigen::Quaternion<T> temp = real_;
     real_ = temp * rhs.real();
     dual_ = (temp * rhs.dual()).coeffs() + (dual_ * rhs.real()).coeffs();
     return *this;
@@ -114,13 +124,23 @@ DualQuaternion<T>::operator *= (const DualQuaternion& rhs)
 
 template<typename T>
 DualQuaternion<T>&
-DualQuaternion<T>::operator *= (T rhs)
+DualQuaternion<T>::operator *= (const T& rhs)
 {
     real_.coeffs() *= rhs;
     dual_.coeffs() *= rhs;
     return *this;
 }
-
+/*
+template<typename T>
+DualQuaternion<T>&
+DualQuaternion<T>::operator *= (const Eigen::Matrix<T,8,8>& rhs) // possible to make it faster?
+{
+    Eigen::Quaternion<T> real(real_),dual(dual_);
+    real_ = ((rhs.block(0,0,4,4)*real) + (rhs.block(0,4,4,4)*dual));
+    dual_ = ((rhs.block(4,0,4,4)*real) + (rhs.block(4,4,4,4)*dual));
+    return *this;
+}
+*/
 /* Unary operators */
 
 template<typename T>
@@ -180,6 +200,16 @@ operator * (T lhs, const DualQuaternion<T>& rhs)
 {
     DualQuaternion<T> temp(rhs);
     return temp *= lhs;
+}
+
+template<typename T>
+Eigen::Matrix<T,8,1>
+operator * (Eigen::Matrix<T,8,8> lhs, const DualQuaternion<T>& rhs)
+{
+    Eigen::Matrix<T,8,1> rhs_vec;
+    rhs_vec<<rhs.real().w(),rhs.real().x(),rhs.real().y(),rhs.real().z(),rhs.dual().w(),rhs.dual().x(),rhs.dual().y(),rhs.dual().z();
+
+    return lhs*rhs_vec;
 }
 
 }   // namespace dualquat

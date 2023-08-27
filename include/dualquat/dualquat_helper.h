@@ -8,6 +8,7 @@
 #include <tuple>
 #include "dualquat_common.h"
 #include "dualquat_exponential.h"
+#include <Eigen/Dense>
 
 namespace dualquat
 {
@@ -78,5 +79,13 @@ sclerp_shortestpath(const DualQuaternion<T>& dq1, const DualQuaternion<T>& dq2, 
     const auto diff = quaternion_conjugate(dq1) * (cos_half_angle < T(0) ? -dq2 : dq2);
     return dq1 * pow(diff, t);
 }
+
+template<typename T>
+Eigen::Matrix<T,8,1>
+dualquat_to_vec(const DualQuaternion<T>& dq)
+{
+    return (Eigen::Matrix<T,8,1>()<<dq.real.w(),dq.real.x(),dq.real.y(),dq.real.z(),dq.dual.w(),dq.dual.x(),dq.dual.y(),dq.dual.z()).finished();
+}
+
 
 }   // namespace dualquat

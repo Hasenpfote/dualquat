@@ -30,7 +30,7 @@ squared_norm(const DualQuaternion<T>& dq)
 
 template<typename T>
 DualQuaternion<T>
-identity()
+identity(const T& type) 
 {
     return DualQuaternion<T>(
         Quaternion<T>::Identity(),

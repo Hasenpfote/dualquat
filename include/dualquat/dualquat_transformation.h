@@ -113,4 +113,18 @@ transform_line(const DualQuaternion<T>& dq, const Vector3<T>& l, const Vector3<T
     return transform_line(dq, DualQuaternion<T>(l, m));
 }
 
+/* 
+    Transform a dualquaternion with another dual quaternion
+*/
+
+template<typename T>
+dualquat::DualQuaternion<T>
+adjoint_frame_transformation(const DualQuaternion<T>& dq, const DualQuaternion<T>& s)
+{
+    // given a s in frame X
+    // dq represents transofrmation Y_T_X
+    // return s in frame Y
+    return quaternion_conjugate(dq) * s * dq;
+}
+
 }   // namespace dualquat
